@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.body() != null) {
                     if (response.body().getStatus().equals("ok")) {
                         Toast.makeText(LoginActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
-                        saveUserToken.saveToken(response.body().getToken(), LoginActivity.this);//Save Token
+                        saveUserToken.saveToken(response.body().getToken(), response.body().getUser_type(), LoginActivity.this);//Save Token
 
                         Class clazz = null;
                         if (response.body().getUser_type().equals("parent")) {

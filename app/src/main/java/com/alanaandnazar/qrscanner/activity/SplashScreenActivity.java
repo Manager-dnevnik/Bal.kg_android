@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
+import com.alanaandnazar.qrscanner.parent.ParentActivity;
+import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
 import com.bumptech.glide.Glide;
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
@@ -28,7 +30,16 @@ SaveUserToken saveUserToken = new SaveUserToken();
             @Override
             public void run() {
                 if (!saveUserToken.getToken(SplashScreenActivity.this).equals("empty")) {
-                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    String type = saveUserToken.getType(SplashScreenActivity.this);
+                    Class clazz = null;
+                    if (type.equals("parent")) {
+                        clazz = ParentActivity.class;
+                    }else if (type.equals("teacher")) {
+                        clazz = TeacherActivity.class;
+                    }else {
+                        clazz = MainActivity.class;
+                    }
+                    Intent i = new Intent(SplashScreenActivity.this, clazz);
                     startActivity(i);
                     finish();
                 }else{

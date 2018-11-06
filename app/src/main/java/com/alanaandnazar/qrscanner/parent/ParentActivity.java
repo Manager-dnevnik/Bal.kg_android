@@ -1,15 +1,84 @@
 package com.alanaandnazar.qrscanner.parent;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
+import com.alanaandnazar.qrscanner.Token.SaveUserToken;
+import com.alanaandnazar.qrscanner.activity.LoginActivity;
+import com.alanaandnazar.qrscanner.activity.MainActivity;
+import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.retrofit.App;
+import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
+import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
 
-public class ParentActivity extends AppCompatActivity {
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class ParentActivity extends AppCompatActivity implements ChildrenAdapter.OnOrderListener {
+
+    RecyclerView recyclerView;
+    SaveUserToken saveToken = new SaveUserToken();
+    String token;
+    ChildrenAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        init();
+
+    }
+
+    private void init() {
+        adapter = new ChildrenAdapter(ParentActivity.this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        token = saveToken.getToken(ParentActivity.this);
+        getChildrens();
+    }
+
+    public void getChildrens() {
+
+        BalAPI balAPI = App.getApi();
+        balAPI.getMyChildrens(token).enqueue(new Callback<List<Children>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+                if (response.body() != null) {
+                    if (response.isSuccessful()) {
+                        Log.e("CHILD SIZE", response.body().size()+"");
+                        adapter.updateItems(response.body());
+                    }
+                } else {
+                    Toast.makeText(ParentActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Children>> call, Throwable t) {
+                Toast.makeText(ParentActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onOrderClick(Children children, int position) {
+        Intent intent = new Intent(this, InfoChildActivity.class);
+        intent.putExtra("id", children.getId());
+        startActivity(intent);
     }
 }

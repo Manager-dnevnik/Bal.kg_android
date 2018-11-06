@@ -49,7 +49,9 @@
         </provider>
 
         <activity android:name=".parent.ParentActivity" />
-        <activity android:name=".teacher.TeacherActivity"></activity>
+        <activity android:name=".teacher.TeacherActivity" />
+        <activity android:name=".parent.InfoChildActivity" />
+        <activity android:name=".parent.child_move.view.ChildMoveActivity"></activity>
     </application>
 
 </manifest>
