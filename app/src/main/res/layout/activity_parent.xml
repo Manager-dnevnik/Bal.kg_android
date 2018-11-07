@@ -9,8 +9,18 @@
 
 
     <android.support.v7.widget.RecyclerView
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:id="@+id/recyclerView"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:onClick="onClick"
+        android:textColor="@color/white"
+        android:text="Выход"
+        android:layout_margin="10dp"
+        android:background="@drawable/mybuttonclicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

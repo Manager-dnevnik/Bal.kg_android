@@ -51,7 +51,9 @@
         <activity android:name=".parent.ParentActivity" />
         <activity android:name=".teacher.TeacherActivity" />
         <activity android:name=".parent.InfoChildActivity" />
-        <activity android:name=".parent.child_move.view.ChildMoveActivity"></activity>
+        <activity android:name=".parent.child_move.view.ChildMoveActivity" />
+        <activity android:name=".parent.shedule.SheduleActivity"></activity>
+        <activity android:name=".parent.detailSubject.SubjectActivity"></activity>
     </application>
 
 </manifest>

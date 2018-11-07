@@ -15,6 +15,7 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.parent.child_move.view.ChildMoveActivity;
+import com.alanaandnazar.qrscanner.parent.shedule.SheduleActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 import com.bumptech.glide.Glide;
@@ -32,7 +33,7 @@ public class InfoChildActivity extends AppCompatActivity {
     int id;
     ImageView imageView;
     TextView textName, textParent1, textParent2, textPhone, textClass, textSchool;
-    Button btn_child_move;
+    Button btn_child_move, btnShedule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class InfoChildActivity extends AppCompatActivity {
         textClass = findViewById(R.id.textClass);
         textSchool = findViewById(R.id.textSchool);
         btn_child_move = findViewById(R.id.btn_child_move);
+        btnShedule = findViewById(R.id.btn_shedule);
 
         id = getIntent().getIntExtra("id",0);
         token = saveUserToken.getToken(InfoChildActivity.this);
@@ -61,6 +63,15 @@ public class InfoChildActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InfoChildActivity.this, ChildMoveActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
+        btnShedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoChildActivity.this, SheduleActivity.class);
                 intent.putExtra("id",id);
                 startActivity(intent);
             }

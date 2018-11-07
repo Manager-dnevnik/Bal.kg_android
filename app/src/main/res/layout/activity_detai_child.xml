@@ -43,9 +43,21 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:layout_margin="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/mybuttonclicked"
         android:id="@+id/btn_child_move"
         android:layout_width="match_parent"
         android:text="Child Move"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:layout_margin="10dp"
+        android:textColor="@color/white"
+        android:background="@drawable/mybuttonclicked"
+        android:id="@+id/btn_shedule"
+        android:layout_width="match_parent"
+        android:text="Shedule"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

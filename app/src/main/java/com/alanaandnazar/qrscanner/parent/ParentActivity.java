@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
@@ -49,6 +50,7 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(ParentActivity.this);
+        Log.e("TOKEN", token);
         getChildrens();
     }
 
@@ -80,5 +82,13 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         Intent intent = new Intent(this, InfoChildActivity.class);
         intent.putExtra("id", children.getId());
         startActivity(intent);
+    }
+
+    public void onClick(View view) {
+        saveToken.ClearToken(ParentActivity.this);
+
+        Intent i = new Intent(ParentActivity.this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 }

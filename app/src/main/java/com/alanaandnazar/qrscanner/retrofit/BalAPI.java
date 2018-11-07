@@ -4,6 +4,7 @@ import android.database.Observable;
 
 import com.alanaandnazar.qrscanner.model.ChildMove;
 import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.model.Shedule;
 
 import java.util.List;
 
@@ -45,4 +46,8 @@ public interface BalAPI {
 
     @GET("/api/childmove")
     Call<List<ChildMove>> getChildMove(@Query("token") String token, @Query("id") int id);
+
+    @GET("/api/childschedule")
+    Call<List<Shedule>> getShedules(@Query("token") String token, @Query("id") int id);
+
 }
