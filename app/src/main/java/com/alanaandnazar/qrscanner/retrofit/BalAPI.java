@@ -4,6 +4,7 @@ import android.database.Observable;
 
 import com.alanaandnazar.qrscanner.model.ChildMove;
 import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.model.Classe;
 import com.alanaandnazar.qrscanner.model.Mark;
 import com.alanaandnazar.qrscanner.model.Shedule;
 
@@ -11,7 +12,11 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -22,7 +27,7 @@ public interface BalAPI {
 
     @POST("/api/auth")
     @Multipart
-   //@FormUrlEncoded
+        //@FormUrlEncoded
     Call<TokenResponse> authPost(@Part("login") RequestBody login,
                                  @Part("pass") RequestBody password);
 
@@ -56,5 +61,21 @@ public interface BalAPI {
 
     @GET("/api/homework")
     Call<List<Mark>> getHomeWork(@Query("token") String token, @Query("id") int id, @Query("subject_id") int subject_id);
+
+
+    @GET("/api/classes")
+    Call<List<Classe>> getClasses(@Query("token") String token);
+
+    @GET("/api/childrens")
+    Call<List<Children>> getChildrens(@Query("token") String token, @Query("class_id") int class_id);
+
+    @FormUrlEncoded
+    @POST("/api/marks")
+    Call<ResponseBody> createMark(@Query("token") String token,
+                                  @Query("subject_id") int subject_id,
+                                  @Field("mark") int mark,
+                                  @Field("date") String date,
+                                  @Field("type_mark") String type_mark,
+                                  @Field("part") String part);
 
 }

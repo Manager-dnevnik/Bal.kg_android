@@ -102,7 +102,6 @@
                 android:textStyle="bold" />
 
             <Switch
-
                 android:id="@+id/enter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

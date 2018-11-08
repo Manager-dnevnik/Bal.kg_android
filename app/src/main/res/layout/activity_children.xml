@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".parent.ParentActivity">
+    tools:context=".parent.child_move.view.ChildMoveActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -21,24 +21,12 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ToolbarColoredBackArrow"
             app:titleTextColor="#000000"></android.support.v7.widget.Toolbar>
-
-
     </android.support.design.widget.AppBarLayout>
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/mybuttonclicked"
-        android:onClick="onClick"
-        android:text="Выход"
-        android:textColor="@color/white" />
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

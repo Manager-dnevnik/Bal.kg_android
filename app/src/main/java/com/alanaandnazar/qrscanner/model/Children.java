@@ -19,6 +19,15 @@ public class Children {
     private String klass;
     String school;
     String img;
+    String fio;
+
+    public void setFio(String fio) {
+        this.fio = fio;
+    }
+
+    public String getFio() {
+        return fio;
+    }
 
     public int getId() {
         return id;

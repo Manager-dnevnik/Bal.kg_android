@@ -48,12 +48,28 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".parent.ParentActivity" />
-        <activity android:name=".teacher.TeacherActivity" />
-        <activity android:name=".parent.InfoChildActivity" />
-        <activity android:name=".parent.child_move.view.ChildMoveActivity" />
-        <activity android:name=".parent.shedule.SheduleActivity"></activity>
-        <activity android:name=".parent.detailSubject.SubjectActivity"></activity>
+        <activity
+            android:name=".parent.ParentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".teacher.TeacherActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".parent.InfoChildActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".parent.child_move.view.ChildMoveActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".parent.shedule.SheduleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".parent.detailSubject.SubjectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".teacher.children.ChildrenActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".teacher.mark.MarkActivity"></activity>
     </application>
 
 </manifest>
