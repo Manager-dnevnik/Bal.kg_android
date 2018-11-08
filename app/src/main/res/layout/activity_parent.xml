@@ -7,20 +7,51 @@
     android:orientation="vertical"
     tools:context=".parent.ParentActivity">
 
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:theme="@style/ToolbarColoredBackArrow"
+            app:titleTextColor="#000000">
+
+            <ImageView
+                android:id="@+id/notify"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:minHeight="0dp"
+                android:src="@mipmap/ic_notify"
+                android:textAllCaps="false"
+                android:layout_marginRight="16dp" />
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
 
     <android.support.v7.widget.RecyclerView
-        android:layout_weight="1"
-        android:layout_width="match_parent"
         android:id="@+id/recyclerView"
-        android:layout_height="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
     <Button
-        android:onClick="onClick"
-        android:textColor="@color/white"
-        android:text="Выход"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/mybuttonclicked"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:onClick="onClick"
+        android:text="Выход"
+        android:textColor="@color/white" />
 
 </LinearLayout>

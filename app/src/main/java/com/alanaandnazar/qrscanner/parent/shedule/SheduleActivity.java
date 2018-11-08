@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
+
 
 import com.alanaandnazar.qrscanner.BaseApplication;
 import com.alanaandnazar.qrscanner.R;
@@ -34,12 +37,30 @@ public class SheduleActivity extends AppCompatActivity implements ISheduleView, 
     @Inject
     IShedulePresenter presenter;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shedule);
         initComponents();
+        initToolbar();
         init();
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Расписание");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void initComponents() {
@@ -48,12 +69,12 @@ public class SheduleActivity extends AppCompatActivity implements ISheduleView, 
     }
 
     private void init() {
+        int id = getIntent().getIntExtra("id", 0);
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new SheduleAdapter(SheduleActivity.this, SheduleActivity.this);
+        adapter = new SheduleAdapter(SheduleActivity.this, SheduleActivity.this, id);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        int id = getIntent().getIntExtra("id", 0);
 
         presenter.bindView(this);
         presenter.getShedules(id);

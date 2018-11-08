@@ -38,7 +38,9 @@ public class RVSubjectSheduleAdapter extends RecyclerView.Adapter<RVSubjectShedu
                 public void onClick(View v) {
                     Intent intent = new Intent(context, SubjectActivity.class);
                     vse = listVse.get(getAdapterPosition());
-//                    intent.putExtra("id", vse.getId());
+                    intent.putExtra("id", id);
+                    intent.putExtra("subject_id", vse.getId());
+                    intent.putExtra("subject", vse.getName_subject());
                     Activity activity = (Activity) context;
                     activity.startActivity(intent);
                     activity.overridePendingTransition(0, 0);
@@ -56,10 +58,12 @@ public class RVSubjectSheduleAdapter extends RecyclerView.Adapter<RVSubjectShedu
     }
 
     List<Subject> listVse;
+    int id;
 
-    public RVSubjectSheduleAdapter(Context context, List<Subject> listVse) {
+    public RVSubjectSheduleAdapter(Context context, List<Subject> listVse, int id) {
         this.listVse = listVse;
         this.context = context;
+        this.id = id;
     }
 
     @Override

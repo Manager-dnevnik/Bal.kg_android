@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,13 +35,30 @@ public class InfoChildActivity extends AppCompatActivity {
     ImageView imageView;
     TextView textName, textParent1, textParent2, textPhone, textClass, textSchool;
     Button btn_child_move, btnShedule;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detai_child);
 
+        initToolbar();
         init();
+    }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void init() {
@@ -96,6 +114,7 @@ public class InfoChildActivity extends AppCompatActivity {
                         textSchool.setText(children.getSchool());
                         textPhone.setText(children.getPhone());
 
+                        toolbar.setTitle(children.getFirst_name());
                         Glide.with(InfoChildActivity.this).load("https://bal.kg/"+children.getImg()).into(imageView);
                     }
                 } else {

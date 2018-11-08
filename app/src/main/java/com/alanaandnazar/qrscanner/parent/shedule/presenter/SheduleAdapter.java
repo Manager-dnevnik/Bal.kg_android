@@ -22,10 +22,12 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
     private List<Shedule> moves;
     private OnOrderListener listener;
     Context context;
+    int id = 0;
 
-    public SheduleAdapter(Context context, OnOrderListener listener) {
+    public SheduleAdapter(Context context, OnOrderListener listener, int id) {
         this.listener = listener;
         this.context = context;
+        this.id = id;
     }
 
     public void removeItem(int position) {
@@ -59,7 +61,7 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
 
 
         if (shedule.getList_subjects() != null) {
-            holder.rvSubjectSheduleAdapter = new RVSubjectSheduleAdapter(context, shedule.getList_subjects());
+            holder.rvSubjectSheduleAdapter = new RVSubjectSheduleAdapter(context, shedule.getList_subjects(), id);
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             holder.recyclerView.setAdapter(holder.rvSubjectSheduleAdapter);
         }

@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.BaseApplication;
@@ -26,6 +28,7 @@ public class ChildMoveActivity extends AppCompatActivity implements IChildMoveVi
 
     @Inject
     IChildMovePresenter presenter;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,24 @@ public class ChildMoveActivity extends AppCompatActivity implements IChildMoveVi
         setContentView(R.layout.activity_child_move);
         initComponents();
         init();
+        initToolbar();
     }
+
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Посещения");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
     private void initComponents() {
         BaseApplication application = (BaseApplication) getApplicationContext();
         application.getAppComponent().plus(new ChildMoveModule()).inject(this);
