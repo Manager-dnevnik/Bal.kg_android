@@ -7,6 +7,7 @@ import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Classe;
 import com.alanaandnazar.qrscanner.model.Mark;
 import com.alanaandnazar.qrscanner.model.Shedule;
+import com.alanaandnazar.qrscanner.model.Subject;
 
 import java.util.List;
 
@@ -69,13 +70,18 @@ public interface BalAPI {
     @GET("/api/childrens")
     Call<List<Children>> getChildrens(@Query("token") String token, @Query("class_id") int class_id);
 
+    @GET("/api/subjects")
+    Call<List<Subject>> getSubjectsMark(@Query("token") String token);
+
     @FormUrlEncoded
     @POST("/api/marks")
-    Call<ResponseBody> createMark(@Query("token") String token,
-                                  @Query("subject_id") int subject_id,
-                                  @Field("mark") int mark,
+    Call<ResponseBody> createMark(@Field("token") String token,
+                                  @Field("id") int id,
+                                  @Field("subject_id") int subject_id,
+                                  @Field("mark") String mark,
                                   @Field("date") String date,
                                   @Field("type_mark") String type_mark,
-                                  @Field("part") String part);
+                                  @Field("part") String part,
+                                  @Field("comm") String comm);
 
 }

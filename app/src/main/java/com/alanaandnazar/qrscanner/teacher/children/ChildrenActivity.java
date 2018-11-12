@@ -21,6 +21,7 @@ import com.alanaandnazar.qrscanner.model.Classe;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 import com.alanaandnazar.qrscanner.teacher.ClasseAdapter;
+import com.alanaandnazar.qrscanner.teacher.HomeWorkActivity;
 import com.alanaandnazar.qrscanner.teacher.mark.MarkActivity;
 
 import java.util.List;
@@ -105,13 +106,12 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
     public void onOrderClick(Children children, int position) {
         Intent intent = new Intent(this, MarkActivity.class);
         intent.putExtra("id", children.getId());
+        intent.putExtra("name", children.getFio());
         startActivity(intent);
     }
 
     public void onClick(View view) {
-        saveToken.ClearToken(ChildrenActivity.this);
-        Intent i = new Intent(ChildrenActivity.this, LoginActivity.class);
+        Intent i = new Intent(ChildrenActivity.this, HomeWorkActivity.class);
         startActivity(i);
-        finish();
     }
 }

@@ -27,74 +27,115 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Ulanov Ulan"
-            android:textColor="@color/black"
-            android:textSize="18sp" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="12dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"
-                android:text="За четверть"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Ulanov Ulan"
                 android:textColor="@color/black"
+                android:layout_marginBottom="30dp"
                 android:textSize="18sp" />
 
-            <Switch
-                android:id="@+id/part_swith"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
+
+            <Spinner
+                android:id="@+id/subjectSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:layout_margin="5dp"
-                android:gravity="center"
-                android:shadowColor="@color/colorPrimaryDark"
-                android:thumbTint="@color/colorPrimaryDark"
-                android:trackTint="@color/colorPrimaryDark" />
-
-        </RelativeLayout>
-
-        <Spinner
-            android:id="@+id/markSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/my_custom_edittext"
-            android:elevation="4dp"
-            android:fontFamily="sans-serif"
-            android:popupBackground="@android:color/transparent" />
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_custom_edittext"
+                android:elevation="4dp"
+                android:fontFamily="sans-serif"
+                android:popupBackground="@android:color/transparent" />
 
 
-        <EditText
-            android:layout_marginTop="16dp"
-            android:id="@+id/reviews"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:background="@drawable/edittext"
-            android:gravity="top"
-            android:hint="Ваш отзыв ..."
-            android:padding="5dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp">
 
-    </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:text="За четверть"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <Switch
+                    android:id="@+id/part_swith"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="5dp"
+                    android:gravity="center"
+                    android:shadowColor="@color/colorPrimaryDark"
+                    android:thumbTint="@color/colorPrimaryDark"
+                    android:trackTint="@color/colorPrimaryDark" />
+
+            </RelativeLayout>
+
+            <Spinner
+                android:id="@+id/partSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_custom_edittext"
+                android:elevation="4dp"
+                android:fontFamily="sans-serif"
+                android:popupBackground="@android:color/transparent" />
+
+
+            <Spinner
+                android:id="@+id/markSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/my_custom_edittext"
+                android:elevation="4dp"
+                android:fontFamily="sans-serif"
+                android:popupBackground="@android:color/transparent" />
+
+
+            <EditText
+                android:id="@+id/reviews"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/edittext"
+                android:gravity="top"
+                android:hint="Комментарии ..."
+                android:padding="7dp" />
+
+            <Button
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/mybuttonclicked"
+                android:text="отправить"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

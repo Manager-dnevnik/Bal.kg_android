@@ -4,6 +4,7 @@ public class Subject {
      int id;
      String name_subject;
      String time_start;
+     String name;
 
     public void setId(int id) {
         this.id = id;
@@ -27,5 +28,13 @@ public class Subject {
 
     public String getTime_start() {
         return time_start;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }

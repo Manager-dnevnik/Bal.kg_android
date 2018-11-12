@@ -69,7 +69,8 @@
         <activity
             android:name=".teacher.children.ChildrenActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".teacher.mark.MarkActivity"></activity>
+        <activity android:name=".teacher.mark.MarkActivity" />
+        <activity android:name=".teacher.HomeWorkActivity"></activity>
     </application>
 
 </manifest>

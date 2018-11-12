@@ -67,7 +67,7 @@ public class MarkFragment extends Fragment {
     public void getChildrens() {
 
         BalAPI balAPI = App.getApi();
-        balAPI.getSubject(token, id, 35).enqueue(new Callback<List<Mark>>() {
+        balAPI.getSubject(token, id, subject_id).enqueue(new Callback<List<Mark>>() {
             @Override
             public void onResponse(@NonNull Call<List<Mark>> call, @NonNull Response<List<Mark>> response) {
                 if (response.body() != null) {

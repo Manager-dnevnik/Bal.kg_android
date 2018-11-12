@@ -98,4 +98,8 @@ public class ChildMoveActivity extends AppCompatActivity implements IChildMoveVi
     public void onOrderClick(ChildMove childMove, int position) {
 
     }
+
+    public void onClick(View view) {
+
+    }
 }
