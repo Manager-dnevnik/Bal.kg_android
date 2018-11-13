@@ -37,6 +37,7 @@
             android:padding="16dp">
 
             <Spinner
+                android:visibility="gone"
                 android:id="@+id/subjectSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -73,12 +74,6 @@
                 android:hint="Домашняя задание ..."
                 android:padding="7dp" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:text="textView"
-                android:layout_height="wrap_content" />
-
             <Button
                 android:onClick="onClickHomeWork"
                 android:layout_width="match_parent"
@@ -88,13 +83,6 @@
                 android:text="отправить"
                 android:textColor="@color/white"
                 tools:ignore="OnClick" />
-
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:text="button"
-                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>

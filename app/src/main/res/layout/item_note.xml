@@ -28,9 +28,12 @@
         <TextView
             android:id="@+id/tv_about"
             android:fontFamily="sans-serif"
+            android:textSize="18sp"
             android:layout_width="match_parent"
             android:text="Title"
+            android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 

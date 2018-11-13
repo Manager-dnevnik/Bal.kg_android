@@ -35,13 +35,12 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/btn_create"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/mybuttonclicked"
             android:onClick="onClick"
-            android:text="Домашнее задание"
+            android:text="Задать домашную задачу"
             android:textColor="@color/white"
             tools:ignore="OnClick" />
 

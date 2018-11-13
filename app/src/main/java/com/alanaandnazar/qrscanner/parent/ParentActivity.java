@@ -18,6 +18,7 @@ import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.activity.LoginActivity;
 import com.alanaandnazar.qrscanner.activity.MainActivity;
 import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.parent.note.NoteActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
@@ -57,7 +58,7 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         notify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(new Intent(ParentActivity.this, NoteActivity.class));
             }
         });
     }
@@ -77,12 +78,21 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         balAPI.getMyChildrens(token).enqueue(new Callback<List<Children>>() {
             @Override
             public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+                if (response.code() == 401) {
+
+                    saveToken.ClearToken(ParentActivity.this);
+
+                    Intent i = new Intent(ParentActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("CHILD SIZE", response.body().size()+"");
                         adapter.updateItems(response.body());
                     }
                 } else {
+
                     Toast.makeText(ParentActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }

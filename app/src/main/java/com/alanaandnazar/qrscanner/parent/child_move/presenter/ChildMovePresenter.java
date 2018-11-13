@@ -50,7 +50,7 @@ public class ChildMovePresenter implements IChildMovePresenter {
                         view.hideProgress();
                     }
                 } else {
-                    view.showError("Сервер не отвечает или неправильный Адрес сервера!");
+//                    view.showError("Сервер не отвечает или неправильный Адрес сервера!");
                     view.hideProgress();
                 }
             }

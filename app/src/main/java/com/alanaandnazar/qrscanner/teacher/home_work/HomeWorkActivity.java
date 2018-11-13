@@ -1,11 +1,14 @@
-package com.alanaandnazar.qrscanner.parent.detailSubject.home_work;
+package com.alanaandnazar.qrscanner.teacher.home_work;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +17,7 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Homework;
-import com.alanaandnazar.qrscanner.model.Mark;
-import com.alanaandnazar.qrscanner.parent.ChildrenAdapter;
-import com.alanaandnazar.qrscanner.parent.ParentActivity;
-import com.alanaandnazar.qrscanner.parent.detailSubject.mark.MarkAdapter;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 
@@ -29,7 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeWorkFragment extends Fragment {
+public class HomeWorkActivity extends AppCompatActivity {
 
 
     RecyclerView recyclerView;
@@ -37,31 +35,45 @@ public class HomeWorkFragment extends Fragment {
     String token;
     HomeworkAdapter adapter;
     int id, subject_id;
+    Toolbar toolbar;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_mark, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_work_list);
+
+        id = getIntent().getIntExtra("id", 0);
+        subject_id = getIntent().getIntExtra("subject_id", 0);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        toolbar = findViewById(R.id.toolbar);
+        initToolbar();
+        init();
+
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        recyclerView = view.findViewById(R.id.recyclerView);
-
-        init();
+    private void initToolbar() {
+        toolbar = findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Домашнее задание");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void init() {
-        id = getArguments().getInt("id", 0);
-        subject_id = getArguments().getInt("subject_id", 0);
 
         Log.e("MARK_ID", id+" "+subject_id);
-        adapter = new HomeworkAdapter(getActivity());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new HomeworkAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        token = saveToken.getToken(getActivity());
+        token = saveToken.getToken(this);
         Log.e("TOKEN", token);
         getChildrens();
     }
@@ -78,13 +90,13 @@ public class HomeWorkFragment extends Fragment {
                         adapter.updateItems(response.body());
                     }
                 } else {
-//                    Toast.makeText(getActivity(), "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeWorkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Homework>> call, Throwable t) {
-                Toast.makeText(getActivity(), "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeWorkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }

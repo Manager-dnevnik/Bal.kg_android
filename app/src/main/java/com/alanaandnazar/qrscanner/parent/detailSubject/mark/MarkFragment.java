@@ -76,7 +76,7 @@ public class MarkFragment extends Fragment {
                         adapter.updateItems(response.body());
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }
 

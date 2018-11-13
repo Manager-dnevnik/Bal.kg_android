@@ -5,7 +5,9 @@ import android.database.Observable;
 import com.alanaandnazar.qrscanner.model.ChildMove;
 import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Classe;
+import com.alanaandnazar.qrscanner.model.Homework;
 import com.alanaandnazar.qrscanner.model.Mark;
+import com.alanaandnazar.qrscanner.model.Note;
 import com.alanaandnazar.qrscanner.model.Shedule;
 import com.alanaandnazar.qrscanner.model.Subject;
 
@@ -61,7 +63,7 @@ public interface BalAPI {
     Call<List<Mark>> getSubject(@Query("token") String token, @Query("id") int id, @Query("subject_id") int subject_id);
 
     @GET("/api/homework")
-    Call<List<Mark>> getHomeWork(@Query("token") String token, @Query("id") int id, @Query("subject_id") int subject_id);
+    Call<List<Homework>> getHomeWork(@Query("token") String token, @Query("id") int id, @Query("subject_id") int subject_id);
 
 
     @GET("/api/classes")
@@ -73,6 +75,14 @@ public interface BalAPI {
     @GET("/api/subjects")
     Call<List<Subject>> getSubjectsMark(@Query("token") String token);
 
+    @GET("/api/note")
+    Call<List<Note>> getNote(@Query("token") String token);
+
+//    @GET("/api/homework")
+//    Call<List<Homework>> getHomework(@Query("token") String token,
+//                                     @Query("id") int id,
+//                                     @Query("subject_id") int subject_id);
+
     @FormUrlEncoded
     @POST("/api/marks")
     Call<ResponseBody> createMark(@Field("token") String token,
@@ -83,5 +93,13 @@ public interface BalAPI {
                                   @Field("type_mark") String type_mark,
                                   @Field("part") String part,
                                   @Field("comm") String comm);
+
+    @FormUrlEncoded
+    @POST("/api/homework")
+    Call<ResponseBody> createHomework(@Field("token") String token,
+                                      @Field("class_id") int class_id,
+                                      @Field("subject_id") int subject_id,
+                                      @Field("date") String date,
+                                      @Field("text") String text);
 
 }

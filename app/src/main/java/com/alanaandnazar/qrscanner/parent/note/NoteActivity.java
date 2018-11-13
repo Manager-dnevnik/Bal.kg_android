@@ -1,4 +1,4 @@
-package com.alanaandnazar.qrscanner.teacher.children;
+package com.alanaandnazar.qrscanner.parent.note;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,15 +10,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.model.Note;
+import com.alanaandnazar.qrscanner.model.Subject;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
-import com.alanaandnazar.qrscanner.teacher.mark.MarkActivity;
-import com.alanaandnazar.qrscanner.teacher.subject.SubjectTeacherActivity;
+import com.alanaandnazar.qrscanner.teacher.CreateHomeWorkActivity;
+import com.alanaandnazar.qrscanner.teacher.subject.SubjectAdapter;
 
 import java.util.List;
 
@@ -26,14 +28,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapter.OnOrderListener {
+public class NoteActivity extends AppCompatActivity implements NoteAdapter.OnOrderListener {
 
     RecyclerView recyclerView;
     SaveUserToken saveToken = new SaveUserToken();
     String token;
-    ChildrenAdapter adapter;
+    NoteAdapter adapter;
     Toolbar toolbar;
     int id;
+    Button btn_create;
 
     @SuppressLint("NewApi")
     @Override
@@ -42,6 +45,8 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
         setContentView(R.layout.activity_children);
 
         recyclerView = findViewById(R.id.recyclerView);
+        btn_create = findViewById(R.id.btn_create);
+        btn_create.setVisibility(View.GONE);
         toolbar = findViewById(R.id.toolbar);
         initToolbar();
         init();
@@ -52,7 +57,7 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Ученики");
+        toolbar.setTitle("Выберите предмет");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,48 +72,45 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
 
     private void init() {
         id = getIntent().getIntExtra("id", 0);
-        adapter = new ChildrenAdapter(ChildrenActivity.this);
+        adapter = new NoteAdapter(NoteActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        token = saveToken.getToken(ChildrenActivity.this);
+        token = saveToken.getToken(NoteActivity.this);
         Log.e("TOKEN", token);
-        getChildrens();
+        getSubject();
     }
 
-    public void getChildrens() {
+    public void getSubject() {
 
         BalAPI balAPI = App.getApi();
-        balAPI.getChildrens(token, id).enqueue(new Callback<List<Children>>() {
+        balAPI.getNote(token).enqueue(new Callback<List<Note>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+            public void onResponse(@NonNull Call<List<Note>> call, @NonNull Response<List<Note>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("Classes SIZE", response.body().size()+"");
                         adapter.updateItems(response.body());
                     }
                 } else {
-                    Toast.makeText(ChildrenActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NoteActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Children>> call, Throwable t) {
-                Toast.makeText(ChildrenActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<Note>> call, Throwable t) {
+                Toast.makeText(NoteActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Children children, int position) {
-        Intent intent = new Intent(this, MarkActivity.class);
-        intent.putExtra("id", children.getId());
-        intent.putExtra("name", children.getFio());
-        startActivity(intent);
+    public void onOrderClick(Note note, int position) {
+
     }
 
-    public void onClick(View view) {
-        Intent i = new Intent(ChildrenActivity.this, SubjectTeacherActivity.class);
-        i.putExtra("id", id);
-        startActivity(i);
-    }
+//    public void onClick(View view) {
+//        Intent i = new Intent(SubjectTeacherActivity.this, CreateHomeWorkActivity.class);
+//        i.putExtra("id", id);
+//        startActivity(i);
+//    }
 }

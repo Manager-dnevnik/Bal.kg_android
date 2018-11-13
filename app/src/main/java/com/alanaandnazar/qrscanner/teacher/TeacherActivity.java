@@ -17,6 +17,7 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.activity.LoginActivity;
 import com.alanaandnazar.qrscanner.model.Classe;
+import com.alanaandnazar.qrscanner.parent.ParentActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 import com.alanaandnazar.qrscanner.teacher.children.ChildrenActivity;
@@ -65,6 +66,16 @@ public class TeacherActivity extends AppCompatActivity implements ClasseAdapter.
         balAPI.getClasses(token).enqueue(new Callback<List<Classe>>() {
             @Override
             public void onResponse(@NonNull Call<List<Classe>> call, @NonNull Response<List<Classe>> response) {
+
+                if (response.code() == 401) {
+
+                    saveToken.ClearToken(TeacherActivity.this);
+
+                    Intent i = new Intent(TeacherActivity.this, LoginActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("Classes SIZE", response.body().size()+"");
