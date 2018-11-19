@@ -66,7 +66,7 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
 
 
     private void init() {
-        id = getIntent().getIntExtra("id", 0);
+        id = getIntent().getIntExtra("class_id", 0);
         adapter = new ChildrenAdapter(ChildrenActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
@@ -101,14 +101,14 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
     @Override
     public void onOrderClick(Children children, int position) {
         Intent intent = new Intent(this, MarkActivity.class);
-        intent.putExtra("id", children.getId());
+        intent.putExtra("class_id", children.getId());
         intent.putExtra("name", children.getFio());
         startActivity(intent);
     }
 
     public void onClick(View view) {
         Intent i = new Intent(ChildrenActivity.this, SubjectTeacherActivity.class);
-        i.putExtra("id", id);
+        i.putExtra("class_id", id);
         startActivity(i);
     }
 }

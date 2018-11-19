@@ -20,6 +20,34 @@ public class Children {
     String school;
     String img;
     String fio;
+    int move_status;
+    String move_about;
+    int mark_position = 0;
+    String mark;
+
+    public void setMark_position(int mark_position) {
+        this.mark_position = mark_position;
+    }
+
+    public int getMark_position() {
+        return mark_position;
+    }
+
+    public void setMove_about(String move_about) {
+        this.move_about = move_about;
+    }
+
+    public String getMove_about() {
+        return move_about;
+    }
+
+    public void setMove_status(int move_status) {
+        this.move_status = move_status;
+    }
+
+    public int getMove_status() {
+        return move_status;
+    }
 
     public void setFio(String fio) {
         this.fio = fio;
@@ -115,5 +143,13 @@ public class Children {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getMark() {
+        return mark;
     }
 }

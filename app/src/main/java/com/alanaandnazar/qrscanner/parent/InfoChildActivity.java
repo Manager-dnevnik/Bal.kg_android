@@ -16,9 +16,13 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.parent.child_move.view.ChildMoveActivity;
+import com.alanaandnazar.qrscanner.parent.homework.ParentHomeworkActivity;
+import com.alanaandnazar.qrscanner.parent.mark.MarkActivity;
+import com.alanaandnazar.qrscanner.parent.note.NoteActivity;
 import com.alanaandnazar.qrscanner.parent.shedule.SheduleActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.teacher.home_work.HomeWorkActivity;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -33,8 +37,8 @@ public class InfoChildActivity extends AppCompatActivity {
     String token;
     int id;
     ImageView imageView;
-    TextView textName, textParent1, textParent2, textPhone, textClass, textSchool;
-    Button btn_child_move, btnShedule;
+    TextView textName, textParent1, textParent2, textPhone, textClass, textSchool, move_status;
+    Button btn_child_move, btnShedule, btnMark, btnHomework, btnNote;
     Toolbar toolbar;
 
     @Override
@@ -71,6 +75,10 @@ public class InfoChildActivity extends AppCompatActivity {
         textSchool = findViewById(R.id.textSchool);
         btn_child_move = findViewById(R.id.btn_child_move);
         btnShedule = findViewById(R.id.btn_shedule);
+        move_status = findViewById(R.id.move_status);
+        btnMark = findViewById(R.id.btn_mark);
+        btnHomework = findViewById(R.id.btn_homework);
+        btnNote = findViewById(R.id.btn_note);
 
         id = getIntent().getIntExtra("id",0);
         token = saveUserToken.getToken(InfoChildActivity.this);
@@ -90,6 +98,33 @@ public class InfoChildActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InfoChildActivity.this, SheduleActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
+        btnMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoChildActivity.this, MarkActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
+        btnHomework.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoChildActivity.this, ParentHomeworkActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
+            }
+        });
+
+        btnNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InfoChildActivity.this, NoteActivity.class);
                 intent.putExtra("id",id);
                 startActivity(intent);
             }
@@ -116,6 +151,17 @@ public class InfoChildActivity extends AppCompatActivity {
 
                         toolbar.setTitle(children.getFirst_name());
                         Glide.with(InfoChildActivity.this).load("https://bal.kg/"+children.getImg()).into(imageView);
+
+                        move_status.setText(response.body().getMove_about());
+
+                        if (response.body().getMove_status()==0){
+                            move_status.setTextColor(getResources().getColor(R.color.black));
+                        }else if (response.body().getMove_status()==1){
+                            move_status.setTextColor(getResources().getColor(R.color.green));
+                        }else if (response.body().getMove_status()==2){
+                            move_status.setTextColor(getResources().getColor(R.color.red));
+                        }
+
                     }
                 } else {
                     Toast.makeText(InfoChildActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();

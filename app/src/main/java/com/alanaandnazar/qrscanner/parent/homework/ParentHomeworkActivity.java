@@ -1,10 +1,10 @@
-package com.alanaandnazar.qrscanner.parent.note;
+package com.alanaandnazar.qrscanner.parent.homework;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,12 +15,10 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Note;
-import com.alanaandnazar.qrscanner.model.Subject;
+import com.alanaandnazar.qrscanner.model.Shedule;
+import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
-import com.alanaandnazar.qrscanner.teacher.CreateHomeWorkActivity;
-import com.alanaandnazar.qrscanner.teacher.subject.SubjectAdapter;
 
 import java.util.List;
 
@@ -28,12 +26,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NoteActivity extends AppCompatActivity implements NoteAdapter.OnOrderListener {
+public class ParentHomeworkActivity extends AppCompatActivity implements HomeworkSheduleAdapter.OnOrderListener {
 
     RecyclerView recyclerView;
     SaveUserToken saveToken = new SaveUserToken();
     String token;
-    NoteAdapter adapter;
+    HomeworkSheduleAdapter adapter;
     Toolbar toolbar;
     int id;
     Button btn_create;
@@ -57,7 +55,7 @@ public class NoteActivity extends AppCompatActivity implements NoteAdapter.OnOrd
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Уведомление");
+        toolbar.setTitle("Домашнее задание");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,10 +70,11 @@ public class NoteActivity extends AppCompatActivity implements NoteAdapter.OnOrd
 
     private void init() {
         id = getIntent().getIntExtra("id", 0);
-        adapter = new NoteAdapter(NoteActivity.this);
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new HomeworkSheduleAdapter(ParentHomeworkActivity.this, ParentHomeworkActivity.this, id);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        token = saveToken.getToken(NoteActivity.this);
+        token = saveToken.getToken(ParentHomeworkActivity.this);
         Log.e("TOKEN", token);
         getSubject();
     }
@@ -83,28 +82,28 @@ public class NoteActivity extends AppCompatActivity implements NoteAdapter.OnOrd
     public void getSubject() {
 
         BalAPI balAPI = App.getApi();
-        balAPI.getNote(token).enqueue(new Callback<List<Note>>() {
+        balAPI.getShedulesMark(token, id).enqueue(new Callback<List<Shedule>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Note>> call, @NonNull Response<List<Note>> response) {
+            public void onResponse(@NonNull Call<List<Shedule>> call, @NonNull Response<List<Shedule>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("Classes SIZE", response.body().size()+"");
                         adapter.updateItems(response.body());
                     }
                 } else {
-                    Toast.makeText(NoteActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParentHomeworkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Note>> call, Throwable t) {
-                Toast.makeText(NoteActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<Shedule>> call, Throwable t) {
+                Toast.makeText(ParentHomeworkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Note note, int position) {
+    public void onOrderClick(Shedule shedule, int position) {
 
     }
 

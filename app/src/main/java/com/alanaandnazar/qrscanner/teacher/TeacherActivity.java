@@ -21,6 +21,7 @@ import com.alanaandnazar.qrscanner.parent.ParentActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalAPI;
 import com.alanaandnazar.qrscanner.teacher.children.ChildrenActivity;
+import com.alanaandnazar.qrscanner.teacher.shedule.TeacherSheduleActivity;
 
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class TeacherActivity extends AppCompatActivity implements ClasseAdapter.
 
     @Override
     public void onOrderClick(Classe classe, int position) {
-        Intent intent = new Intent(this, ChildrenActivity.class);
+        Intent intent = new Intent(this, TeacherSheduleActivity.class);
         intent.putExtra("id", classe.getId());
         startActivity(intent);
     }

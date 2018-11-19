@@ -3,6 +3,7 @@ package com.alanaandnazar.qrscanner.parent.shedule;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import com.alanaandnazar.qrscanner.dagger.child_move.ChildMoveModule;
 import com.alanaandnazar.qrscanner.dagger.shedule.SheduleModule;
 import com.alanaandnazar.qrscanner.model.ChildMove;
 import com.alanaandnazar.qrscanner.model.Shedule;
+import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
 import com.alanaandnazar.qrscanner.parent.child_move.presenter.ChildMoveAdapter;
 import com.alanaandnazar.qrscanner.parent.child_move.presenter.IChildMovePresenter;
 import com.alanaandnazar.qrscanner.parent.child_move.view.ChildMoveActivity;
@@ -72,7 +74,11 @@ public class SheduleActivity extends AppCompatActivity implements ISheduleView, 
         int id = getIntent().getIntExtra("id", 0);
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new SheduleAdapter(SheduleActivity.this, SheduleActivity.this, id);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mGridLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.HORIZONTAL));
+        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
 

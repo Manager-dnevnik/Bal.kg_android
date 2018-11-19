@@ -73,6 +73,12 @@
         <activity android:name=".teacher.CreateHomeWorkActivity"></activity>
         <activity android:name=".teacher.subject.SubjectTeacherActivity"/>
         <activity android:name=".parent.note.NoteActivity"/>
+        <activity android:name=".parent.mark.MarkActivity"/>
+        <activity android:name=".parent.homework.ParentHomeworkActivity"/>
+        <activity android:name=".parent.detailSubject.home_work.DetailHomeWorkActivity"/>
+        <activity android:name=".parent.detailSubject.mark.DetailMarkActivity"/>
+        <activity android:name=".teacher.shedule.TeacherSheduleActivity"/>
+        <activity android:name=".teacher.children.ChildrenMarkActivity"/>
     </application>
 
 </manifest>

@@ -6,7 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.model.Children;
@@ -18,6 +22,7 @@ import java.util.List;
 public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderViewHolder> {
     private List<Children> orders;
     private OnOrderListener listener;
+
 
     public ChildrenAdapter(OnOrderListener listener) {
         this.listener = listener;
@@ -43,6 +48,7 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
             }
         });
 
+
         return holder;
     }
 
@@ -50,6 +56,22 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Children children = orders.get(position);
         holder.tv_title.setText(children.getFio());
+        holder.spinner.setSelection(children.getMark_position());
+
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                String mark = holder.spinner.getSelectedItem().toString();
+                children.setMark(mark);
+                children.setMark_position(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
 
     }
 
@@ -67,11 +89,20 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
 
         TextView tv_title;
         Context context;
+        Spinner spinner;
 
         public OrderViewHolder(View view) {
             super(view);
             context = view.getContext();
             tv_title = view.findViewById(R.id.tv_title);
+            spinner = itemView.findViewById(R.id.spinner);
+
+            String marks[] = {"", "5", "4", "3", "2"};
+
+            final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, R.layout.spiener_item, marks);
+            dataAdapter.setDropDownViewResource(R.layout.spiener_dropdown2);
+            spinner.setAdapter(dataAdapter);
+
         }
     }
 
