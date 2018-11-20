@@ -100,6 +100,7 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
 
     @Override
     public void onOrderClick(Children children, int position) {
+
         Intent intent = new Intent(this, MarkActivity.class);
         intent.putExtra("class_id", children.getId());
         intent.putExtra("name", children.getFio());

@@ -3,12 +3,14 @@ package com.alanaandnazar.qrscanner.teacher.shedule;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.model.Subject;
 import com.alanaandnazar.qrscanner.parent.detailSubject.mark.DetailMarkActivity;
+import com.alanaandnazar.qrscanner.teacher.CreateHomeWorkActivity;
 import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
 import com.alanaandnazar.qrscanner.teacher.children.ChildrenActivity;
 import com.alanaandnazar.qrscanner.teacher.children.ChildrenMarkActivity;
@@ -45,19 +48,57 @@ public class TeacherSubjectSheduleAdapter extends RecyclerView.Adapter<TeacherSu
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ChildrenMarkActivity.class);
                     vse = listVse.get(getAdapterPosition());
-                    intent.putExtra("class_id", id);
-                    intent.putExtra("subject_id", vse.getId());
-                    intent.putExtra("subject", vse.getName_subject());
-                    Activity activity = (Activity) context;
-                    activity.startActivity(intent);
-                    activity.overridePendingTransition(0, 0);
+                    showTipDialog(id, vse.getId(), vse.getName_subject());
                 }
             });
 
 
+
         }
+
+        public void showTipDialog(int id, int subject_id, String name) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = li;
+            View dialogView = inflater.inflate(R.layout.allert_dialog, null);
+
+
+            builder.setView(dialogView);
+
+            Button mark = dialogView.findViewById(R.id.mark);
+            TextView homework = dialogView.findViewById(R.id.homework);
+
+            final AlertDialog dialog = builder.create();
+            mark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ChildrenMarkActivity.class);
+                    intent.putExtra("class_id", id);
+                    intent.putExtra("subject_id", subject_id);
+                    intent.putExtra("subject", name);
+                    Activity activity = (Activity) context;
+                    activity.startActivity(intent);
+                    activity.overridePendingTransition(0, 0);
+                    dialog.cancel();
+                }
+            });
+            homework.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, CreateHomeWorkActivity.class);
+                    intent.putExtra("class_id", id);
+                    intent.putExtra("subject_id", subject_id);
+                    intent.putExtra("name", name);
+                    Activity activity = (Activity) context;
+                    activity.startActivity(intent);
+                    activity.overridePendingTransition(0, 0);
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+        }
+
 
     }
 

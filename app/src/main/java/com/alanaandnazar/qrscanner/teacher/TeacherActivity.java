@@ -3,6 +3,7 @@ package com.alanaandnazar.qrscanner.teacher;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -79,7 +80,7 @@ public class TeacherActivity extends AppCompatActivity implements ClasseAdapter.
 
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("Classes SIZE", response.body().size()+"");
+                        Log.e("Classes SIZE", response.body().size() + "");
                         adapter.updateItems(response.body());
                     }
                 } else {
@@ -102,9 +103,21 @@ public class TeacherActivity extends AppCompatActivity implements ClasseAdapter.
     }
 
     public void onClick(View view) {
-        saveToken.ClearToken(TeacherActivity.this);
-        Intent i = new Intent(TeacherActivity.this, LoginActivity.class);
-        startActivity(i);
-        finish();
+        showSignOutDialog();
     }
+
+    private void showSignOutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выйти");
+        builder.setMessage("Вы уверены что хотите выйти?");
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            saveToken.ClearToken(TeacherActivity.this);
+            Intent i = new Intent(TeacherActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
+    }
+
 }

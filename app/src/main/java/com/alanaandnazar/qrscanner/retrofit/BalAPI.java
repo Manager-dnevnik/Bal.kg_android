@@ -103,8 +103,11 @@ public interface BalAPI {
                                       @Field("text") String text);
 
 
-    @GET("/api/childschedule")
+    @GET("/api/marks")
     Call<List<Shedule>> getShedulesMark(@Query("token") String token, @Query("id") int id);
+
+    @GET("/api/homework")
+    Call<List<Shedule>> getShedulesHomwork(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/childschedule")
     Call<List<Shedule>> getShedulesTeacher(@Query("token") String token, @Query("class_id") int class_id);

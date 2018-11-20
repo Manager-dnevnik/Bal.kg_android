@@ -3,6 +3,7 @@ package com.alanaandnazar.qrscanner.parent;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -112,10 +113,21 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
     }
 
     public void onClick(View view) {
-        saveToken.ClearToken(ParentActivity.this);
-
-        Intent i = new Intent(ParentActivity.this, LoginActivity.class);
-        startActivity(i);
-        finish();
+        showSignOutDialog();
     }
+
+    private void showSignOutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выйти");
+        builder.setMessage("Вы уверены что хотите выйти?");
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            saveToken.ClearToken(ParentActivity.this);
+            Intent i = new Intent(ParentActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        });
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.show();
+    }
+
 }

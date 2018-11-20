@@ -85,6 +85,9 @@ public class HomeworkSubjectSheduleAdapter extends RecyclerView.Adapter<Homework
 
         personViewHolder.nameSubject.setText(vse.getName_subject());
         personViewHolder.timeStart.setText(vse.getTime_start());
+        if (vse.getHomework()!=null) {
+            personViewHolder.homework.setText(vse.getHomework());
+        }
     }
 
     @Override

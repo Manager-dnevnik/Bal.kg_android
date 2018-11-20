@@ -97,6 +97,7 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
             tv_title = view.findViewById(R.id.tv_title);
             spinner = itemView.findViewById(R.id.spinner);
 
+            spinner.setVisibility(View.VISIBLE);
             String marks[] = {"", "5", "4", "3", "2"};
 
             final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, R.layout.spiener_item, marks);

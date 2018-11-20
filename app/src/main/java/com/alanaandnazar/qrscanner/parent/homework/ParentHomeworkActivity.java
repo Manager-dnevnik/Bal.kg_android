@@ -82,7 +82,7 @@ public class ParentHomeworkActivity extends AppCompatActivity implements Homewor
     public void getSubject() {
 
         BalAPI balAPI = App.getApi();
-        balAPI.getShedulesMark(token, id).enqueue(new Callback<List<Shedule>>() {
+        balAPI.getShedulesHomwork(token, id).enqueue(new Callback<List<Shedule>>() {
             @Override
             public void onResponse(@NonNull Call<List<Shedule>> call, @NonNull Response<List<Shedule>> response) {
                 if (response.body() != null) {

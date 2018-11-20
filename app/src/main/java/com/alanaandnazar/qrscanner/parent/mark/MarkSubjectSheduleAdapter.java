@@ -85,6 +85,7 @@ public class MarkSubjectSheduleAdapter extends RecyclerView.Adapter<MarkSubjectS
 
         personViewHolder.nameSubject.setText(vse.getName_subject());
         personViewHolder.timeStart.setText(vse.getTime_start());
+        personViewHolder.mark.setText(vse.getMark()+"");
     }
 
     @Override
