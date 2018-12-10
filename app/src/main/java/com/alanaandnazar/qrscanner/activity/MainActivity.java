@@ -409,7 +409,8 @@ public class MainActivity extends AppCompatActivity {
                     } else {
 
                         InfoPost(ID, status, type, time, token);
-                        progressBar = ProgressDialog.show(MainActivity.this, "Пожалуйста подождите", "Отправка...");
+                        replace();
+//                        progressBar = ProgressDialog.show(MainActivity.this, "Пожалуйста подождите", "Отправка...");
                     }
 
                 } else {
@@ -740,7 +741,7 @@ public class MainActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         if (response.body().getStatus().equals("ok")) {
 
-                            if (progressBar.isShowing()) {
+                            /*if (progressBar.isShowing()) {
                                 progressBar.dismiss();
                             }
                             textViewFio.setText("");
@@ -752,7 +753,7 @@ public class MainActivity extends AppCompatActivity {
                             guestPhoto.setImageResource(R.drawable.add_icon);
                             editId.setText(null);
                             spinner.setSelection(0);
-                            fileToUpload = null;
+                            fileToUpload = null;*/
                             Toast.makeText(MainActivity.this, "Успешно", Toast.LENGTH_SHORT).show();
                         } else {
                             if (progressBar.isShowing()) {
@@ -775,6 +776,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("TAG", "onFailure: " + t);
             }
         });
+    }
+
+    public void replace(){
+//        if (progressBar.isShowing()) {
+//            progressBar.dismiss();
+//        }
+        textViewFio.setText("");
+        textViewAbout.setText("");
+//        if (checkBox.isChecked()) {
+//            textViewFio.setText(response.body().getFio());
+//            textViewAbout.setText(response.body().getAbout());
+//        }
+        guestPhoto.setImageResource(R.drawable.add_icon);
+        editId.setText(null);
+        spinner.setSelection(0);
+        fileToUpload = null;
     }
 
 
