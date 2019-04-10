@@ -82,7 +82,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         partsAdapter.setDropDownViewResource(R.layout.spiener_dropdown);
         partSpinner.setAdapter(partsAdapter);
 
-        String timeStamp = new SimpleDateFormat("dd.mm.YYYY").format(new Date());
+        String timeStamp = new SimpleDateFormat("dd.mm.yyyy").format(new Date());
 
         Log.e("TIME", timeStamp);
 
@@ -157,7 +157,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
 
     public void onClickMark(View view) {
         String review = reviews.getText().toString();
-        String timeStamp = new SimpleDateFormat("dd.MM.YYYY").format(new Date());
+        String timeStamp = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 
         boolean bool = true;
         if (review.length() == 0) {

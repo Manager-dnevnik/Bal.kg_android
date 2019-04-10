@@ -2,6 +2,7 @@ package com.alanaandnazar.qrscanner.parent.detailSubject.mark;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Mark mark = orders.get(position);
+        ViewGroup.LayoutParams params = holder.card_view.getLayoutParams();
 
         Log.e("MARK", mark.getComm()+" "+mark.getDate());
         if (mark.getType_mark().equals("part")){
@@ -62,6 +64,17 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
         holder.tvComm.setText(mark.getComm());
         holder.tvDate.setText(mark.getDate());
         holder.tvMark.setText(mark.getMark());
+
+        if (mark.getMark()==null){
+            params.height = 0;
+            params.width = 0;
+            holder.card_view.setLayoutParams(params);
+            return;
+        }
+        if (mark.getMark().isEmpty()){
+            params.height = 0;
+            params.width = 0;
+            holder.card_view.setLayoutParams(params);        }
 
     }
 
@@ -79,6 +92,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
 
         TextView tvPart, tvMark, tvComm, tvDate;
         Context context;
+        CardView card_view;
         LinearLayout linePart;
 
         public OrderViewHolder(View view) {
@@ -89,6 +103,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
             tvPart = view.findViewById(R.id.tv_part);
             tvDate = view.findViewById(R.id.tv_date);
             linePart = view.findViewById(R.id.line_part);
+            card_view = view.findViewById(R.id.card_view);
         }
     }
 

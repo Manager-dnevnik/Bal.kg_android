@@ -112,8 +112,8 @@ public class CreateHomeWorkActivity extends AppCompatActivity {
 
 
     private void updateLabel() {
-        String myFormat = "dd.MM.YYYY"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        String myFormat = "dd.MM.yyyy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
 
         textDate.setText(sdf.format(myCalendar.getTime()));
         data = sdf.format(myCalendar.getTime());
