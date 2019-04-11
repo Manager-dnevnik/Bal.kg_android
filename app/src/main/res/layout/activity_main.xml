@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textSize="12dp" />
+
         <TextView
             android:id="@+id/about"
             android:layout_width="match_parent"

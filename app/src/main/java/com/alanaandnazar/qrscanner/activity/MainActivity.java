@@ -345,14 +345,11 @@ public class MainActivity extends AppCompatActivity {
                                     synchronized (this) {
                                         final int finalI = i;
 
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Log.e("BAZA", "run: " + result.get(finalI));
-                                                person = result.get(finalI);
-                                                SyncPost(person.getId(), person.getStatus(), person.getType(), person.getTime(), token, person);
-                                                progressBar.setMessage("Отправлено - " + (finalI + 1));
-                                            }
+                                        runOnUiThread(() -> {
+                                            Log.e("BAZA", "run: " + result.get(finalI));
+                                            person = result.get(finalI);
+                                            SyncPost(person.getId(), person.getStatus(), person.getType(), person.getTime(), token, person);
+                                            progressBar.setMessage("Отправлено - " + (finalI + 1));
                                         });
 
                                         try {
@@ -556,31 +553,31 @@ public class MainActivity extends AppCompatActivity {
             captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, file3);
             startActivityForResult(captureIntent, b);
         } else {*/
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
-                file3 = null;
-                Log.e("GHJKL:", "sdfeurif");
-                try {
-                    file3 = createImageFile();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                    Log.e("ERROR", "FILE");
-                    return;
-                }
-                // Continue only if the File was successfully created
-                if (file3 != null) {
-                    // Uri photoURI = Uri.fromFile(createImageFile());
-                    Uri photoURI = FileProvider.getUriForFile(MainActivity.this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            file3);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            file3 = null;
+            Log.e("GHJKL:", "sdfeurif");
+            try {
+                file3 = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                Log.e("ERROR", "FILE");
+                return;
+            }
+            // Continue only if the File was successfully created
+            if (file3 != null) {
+                // Uri photoURI = Uri.fromFile(createImageFile());
+                Uri photoURI = FileProvider.getUriForFile(MainActivity.this,
+                        BuildConfig.APPLICATION_ID + ".provider",
+                        file3);
 
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, b);
-                }
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, b);
             }
         }
+    }
     //}
 
     private File createImageFile() throws IOException {
@@ -595,7 +592,7 @@ public class MainActivity extends AppCompatActivity {
                 ".jpg",
                 storageDir
         );
-       // File file = new File(Environment.getExternalStorageDirectory(), imageFileName);
+        // File file = new File(Environment.getExternalStorageDirectory(), imageFileName);
 
         return image;
     }
@@ -692,7 +689,10 @@ public class MainActivity extends AppCompatActivity {
                         });*/
                         textViewFio.setText("");
                         textViewAbout.setText("");
-
+                        if (checkBox.isChecked()) {
+                            textViewFio.setText(response.body().getFio());
+                            textViewAbout.setText(response.body().getAbout());
+                        }
                         guestPhoto.setImageResource(R.drawable.add_icon);
                         editId.setText(null);
                         spinner.setSelection(0);
@@ -741,9 +741,9 @@ public class MainActivity extends AppCompatActivity {
                     if (response.body() != null) {
                         if (response.body().getStatus().equals("ok")) {
 
-                            /*if (progressBar.isShowing()) {
+                           /* if (progressBar.isShowing()) {
                                 progressBar.dismiss();
-                            }
+                            }*/
                             textViewFio.setText("");
                             textViewAbout.setText("");
                             if (checkBox.isChecked()) {
@@ -753,8 +753,8 @@ public class MainActivity extends AppCompatActivity {
                             guestPhoto.setImageResource(R.drawable.add_icon);
                             editId.setText(null);
                             spinner.setSelection(0);
-                            fileToUpload = null;*/
-                            Toast.makeText(MainActivity.this, "Успешно", Toast.LENGTH_SHORT).show();
+                            fileToUpload = null;
+//                            Toast.makeText(MainActivity.this, "Успешно", Toast.LENGTH_SHORT).show();
                         } else {
                             if (progressBar.isShowing()) {
                                 progressBar.dismiss();
@@ -778,7 +778,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void replace(){
+    public void replace() {
 //        if (progressBar.isShowing()) {
 //            progressBar.dismiss();
 //        }
