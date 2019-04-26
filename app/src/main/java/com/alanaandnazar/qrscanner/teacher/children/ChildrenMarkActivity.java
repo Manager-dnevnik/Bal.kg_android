@@ -134,13 +134,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Поставить оценку");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
@@ -150,6 +144,8 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         adapter = new ChildrenAdapter(ChildrenMarkActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(true);
+
         token = saveToken.getToken(ChildrenMarkActivity.this);
         getChildrens();
     }
