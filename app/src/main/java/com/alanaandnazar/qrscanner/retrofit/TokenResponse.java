@@ -9,6 +9,26 @@ public class TokenResponse {
     @Expose
     private String status;
 
+    @SerializedName("fio")
+    @Expose
+    private String fio;
+
+    @SerializedName("about")
+    @Expose
+    private String about;
+
+    @SerializedName("mess")
+    @Expose
+    private String mess;
+
+    @SerializedName("token")
+    @Expose
+    private String token;
+
+    @SerializedName("user_type")
+    @Expose
+    private String user_type;
+
     public String getFio() {
         return fio;
     }
@@ -35,26 +55,6 @@ public class TokenResponse {
     public void setAbout(String about) {
         this.about = about;
     }
-
-    @SerializedName("fio")
-    @Expose
-    private String fio;
-
-    @SerializedName("about")
-    @Expose
-    private String about;
-
-    @SerializedName("mess")
-    @Expose
-    private String mess;
-
-    @SerializedName("token")
-    @Expose
-    private String token;
-
-    @SerializedName("user_type")
-    @Expose
-    private String user_type;
 
 
     public String getStatus() {

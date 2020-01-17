@@ -144,7 +144,6 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         adapter = new ChildrenAdapter(ChildrenMarkActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(true);
 
         token = saveToken.getToken(ChildrenMarkActivity.this);
         getChildrens();
@@ -236,11 +235,14 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         BalAPI api = App.getApi();
         Call<ResponseBody> call;
         for (Children children : arrayList) {
+
             if (children.getMark_position()!=0){
                 Log.e("MARK", children.getMark() + " " + children.getFio());
                 Log.e("MARK", token + " " + children.getId() + " " + subjectId + " " + children.getMark() + " " + date + " " + type_mark + " " + part + " " + comm);
                 call = api.createMark(token, children.getId(), subjectId, children.getMark(), date, type_mark, part, comm);
                 Response<ResponseBody> response = call.execute();
+
+
                 if (response.isSuccessful()) {
                     Log.e("Responce : ", response.body().toString() + " - " + response.body().string());
                 } else {

@@ -2,19 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alanaandnazar.qrscanner">
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
@@ -23,6 +10,7 @@
         android:roundIcon="@mipmap/end_main_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.AutoScannerActivity"></activity>
         <activity
             android:name=".activity.SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -38,19 +26,10 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.LoginActivity" />
 
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-
         <activity
             android:name=".parent.ParentActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".teacher.TeacherActivity"
             android:screenOrientation="portrait" />
@@ -70,15 +49,37 @@
             android:name=".teacher.children.ChildrenActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".teacher.mark.MarkActivity" />
-        <activity android:name=".teacher.CreateHomeWorkActivity"></activity>
-        <activity android:name=".teacher.subject.SubjectTeacherActivity"/>
-        <activity android:name=".parent.note.NoteActivity"/>
-        <activity android:name=".parent.mark.MarkActivity"/>
-        <activity android:name=".parent.homework.ParentHomeworkActivity"/>
-        <activity android:name=".parent.detailSubject.home_work.DetailHomeWorkActivity"/>
-        <activity android:name=".parent.detailSubject.mark.DetailMarkActivity"/>
-        <activity android:name=".teacher.shedule.TeacherSheduleActivity"/>
-        <activity android:name=".teacher.children.ChildrenMarkActivity"/>
+        <activity android:name=".teacher.CreateHomeWorkActivity" />
+        <activity android:name=".teacher.subject.SubjectTeacherActivity" />
+        <activity android:name=".parent.note.NoteActivity" />
+        <activity android:name=".parent.mark.MarkActivity" />
+        <activity android:name=".parent.homework.ParentHomeworkActivity" />
+        <activity android:name=".parent.detailSubject.home_work.DetailHomeWorkActivity" />
+        <activity android:name=".parent.detailSubject.mark.DetailMarkActivity" />
+        <activity android:name=".teacher.shedule.TeacherSheduleActivity" />
+        <activity android:name=".teacher.children.ChildrenMarkActivity" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

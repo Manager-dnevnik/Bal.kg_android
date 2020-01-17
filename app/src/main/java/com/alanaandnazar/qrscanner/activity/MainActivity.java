@@ -71,7 +71,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class MainActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     Intent intent;
-    Button btnScanner, btnSendData, exit;
+    Button btnScanner, btnSendData, exit,btnAutoScanner;
     Spinner spinner;
     Switch aSwitch;
     String categor[] = {"Статус:", "Ученик", "Учитель", "Гость"};
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         spinner = findViewById(R.id.typeSpinner);
         btnScanner = findViewById(R.id.scanner);
+        btnAutoScanner = findViewById(R.id.auto_scanner);
         btnSendData = findViewById(R.id.sendData);
         editId = findViewById(R.id.ID);
         aSwitch = findViewById(R.id.enter);
@@ -169,6 +170,16 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("ClickableViewAccessibility")
     public void setListeners() {
+
+        checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            Constants.IS_CHECKED = b;
+
+        });
+
+
+
+
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -281,6 +292,11 @@ public class MainActivity extends AppCompatActivity {
         btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!aSwitch.isChecked()) {
+                    Constants.STATUS = "1";//enter
+                } else {
+                    Constants.STATUS = "0";//exit
+                }
 
                 Intent i = new Intent(MainActivity.this, ScannerActivity.class);
                 startActivity(i);
@@ -309,6 +325,36 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //AutoScannerButton
+        btnAutoScanner.setOnClickListener(view -> {
+
+            if (!aSwitch.isChecked()) {
+                Constants.STATUS = "1";//enter
+            } else {
+                Constants.STATUS = "0";//exit
+            }
+
+            Intent i = new Intent(MainActivity.this, AutoScannerActivity.class);
+            startActivity(i);
+        });
+        btnAutoScanner.setOnTouchListener((v, event) -> {
+            int eventAction = event.getAction();
+            switch (eventAction) {
+                case MotionEvent.ACTION_DOWN:
+                    btnAutoScanner.setTextColor(Color.parseColor("#fdfdfe"));
+                    btnAutoScanner.setBackgroundResource(R.drawable.mybuttonclicked);
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    btnAutoScanner.setTextColor(Color.parseColor("#7a1a8b"));
+                    btnAutoScanner.setBackgroundResource(R.drawable.mybutton);
+                    break;
+            }
+            return false;
+        });
+
+
 
         btnSendData.setOnClickListener(new View.OnClickListener() {
             @Override

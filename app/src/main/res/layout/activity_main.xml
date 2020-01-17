@@ -103,6 +103,7 @@
                 android:textStyle="bold" />
 
             <Switch
+
                 android:id="@+id/enter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,13 +157,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/mybutton"
                 android:elevation="2dp"
                 android:fontFamily="sans-serif"
                 android:text="Отправить"
                 android:textAllCaps="false"
                 android:textColor="#7a1a8b" />
+
+            <Button
+                android:id="@+id/auto_scanner"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/mybutton"
+                android:elevation="2dp"
+                android:fontFamily="sans-serif"
+                android:text="Авто Сканер"
+                android:textAllCaps="false"
+                android:textColor="#7a1a8b" />
+
 
             <Button
                 android:id="@+id/exit"

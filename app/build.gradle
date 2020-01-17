@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.alanaandnazar.qrscanner"
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 10
-        versionName "1.0.6"
+        targetSdkVersion 28
+        versionCode 13
+        versionName "1.0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

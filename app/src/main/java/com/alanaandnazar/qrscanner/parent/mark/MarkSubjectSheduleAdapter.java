@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +83,18 @@ public class MarkSubjectSheduleAdapter extends RecyclerView.Adapter<MarkSubjectS
     public void onBindViewHolder(final PersonViewHolder personViewHolder, int i) {
         vse = new Subject();
         vse = listVse.get(i);
+        Log.e("OCENKA", vse.getName_subject() + " - " + vse.getTime_start() + " - " + vse.getMark());
 
         personViewHolder.nameSubject.setText(vse.getName_subject());
         personViewHolder.timeStart.setText(vse.getTime_start());
-        personViewHolder.mark.setText(vse.getMark()+"");
+
+        if (vse.getMark() != null) {
+            personViewHolder.mark.setText(vse.getMark());
+        } else {
+            personViewHolder.mark.setText("");
+        }
+
+
     }
 
     @Override

@@ -98,7 +98,7 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
             spinner = itemView.findViewById(R.id.spinner);
 
             spinner.setVisibility(View.VISIBLE);
-            String marks[] = {"", "5", "4", "3", "2"};
+            String marks[] = {"", "5", "4", "3", "2","н"};
 
             final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, R.layout.spiener_item, marks);
             dataAdapter.setDropDownViewResource(R.layout.spiener_dropdown2);

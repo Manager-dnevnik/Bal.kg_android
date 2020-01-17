@@ -54,27 +54,35 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
         Mark mark = orders.get(position);
         ViewGroup.LayoutParams params = holder.card_view.getLayoutParams();
 
-        Log.e("MARK", mark.getComm()+" "+mark.getDate());
-        if (mark.getType_mark().equals("part")){
+        Log.e("MARK", mark.getComm() + " " + mark.getDate());
+        if (mark.getType_mark().equals("part")) {
             holder.linePart.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.linePart.setVisibility(View.GONE);
         }
         holder.tvPart.setText(mark.getPart());
         holder.tvComm.setText(mark.getComm());
         holder.tvDate.setText(mark.getDate());
-        holder.tvMark.setText(mark.getMark());
+//        if(mark.getMark().equals("1")){
+//            holder.tvMark.setText("Н/Б");
+//        }else{
+//            holder.tvMark.setText(mark.getMark());
+//        }
 
-        if (mark.getMark()==null){
+
+        if (mark.getMark()==null || mark.getMark().isEmpty()){
             params.height = 0;
             params.width = 0;
             holder.card_view.setLayoutParams(params);
-            return;
+           // return;
+        } else {
+            holder.tvMark.setText(mark.getMark());
+
         }
-        if (mark.getMark().isEmpty()){
-            params.height = 0;
-            params.width = 0;
-            holder.card_view.setLayoutParams(params);        }
+//        if (mark.getMark().isEmpty()){
+//            params.height = 0;
+//            params.width = 0;
+//            holder.card_view.setLayoutParams(params);        }
 
     }
 

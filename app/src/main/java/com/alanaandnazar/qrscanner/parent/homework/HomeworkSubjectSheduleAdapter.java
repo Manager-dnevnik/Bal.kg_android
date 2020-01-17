@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,8 @@ public class HomeworkSubjectSheduleAdapter extends RecyclerView.Adapter<Homework
 
         personViewHolder.nameSubject.setText(vse.getName_subject());
         personViewHolder.timeStart.setText(vse.getTime_start());
-        if (vse.getHomework()!=null) {
+        Log.e("HOME", vse.getHomework() + " ");
+        if (vse.getHomework() != null) {
             personViewHolder.homework.setText(vse.getHomework());
         }
     }

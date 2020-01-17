@@ -6,7 +6,10 @@ package com.alanaandnazar.qrscanner;
 
 public class Constants {
     public static boolean GET_INFO = false;
+    public static boolean SYNC = false;
     public static String TYPE;
     public static String ID;
-    //public static String BASE_API = "https://bal.kg";
+    public static String STATUS;
+
+    public static boolean IS_CHECKED = false;
 }
