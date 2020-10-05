@@ -1,8 +1,7 @@
-package com.alanaandnazar.qrscanner.parent.mark;
+package com.alanaandnazar.qrscanner.teacher.schedule;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,20 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.shedule.presenter.RVSubjectSheduleAdapter;
+import com.alanaandnazar.qrscanner.model.Schedule;
 
 import java.util.List;
 
 
-public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.OrderViewHolder> {
+public class TeachersTimeTableAdapter extends RecyclerView.Adapter<TeachersTimeTableAdapter.OrderViewHolder> {
 
-    private List<Shedule> moves;
+    private List<Schedule> moves;
     private OnOrderListener listener;
     Context context;
     int id = 0;
 
-    public MarkSheduleAdapter(Context context, OnOrderListener listener, int id) {
+    public TeachersTimeTableAdapter(Context context, OnOrderListener listener, int id) {
         this.listener = listener;
         this.context = context;
         this.id = id;
@@ -38,7 +36,7 @@ public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shedule, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +54,12 @@ public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Shedule shedule = moves.get(position);
+        Schedule shedule = moves.get(position);
         holder.tv_day_name.setText(shedule.getDay_name());
 
 
         if (shedule.getList_subjects() != null) {
-            holder.rvSubjectSheduleAdapter = new MarkSubjectSheduleAdapter(context, shedule.getList_subjects(), id);
+            holder.rvSubjectSheduleAdapter = new TeacherSubjectSheduleAdapter(context, shedule.getList_subjects(), id);
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
             holder.recyclerView.setAdapter(holder.rvSubjectSheduleAdapter);
         }
@@ -73,7 +71,7 @@ public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.
         return moves == null ? 0 : moves.size();
     }
 
-    public void updateItems(List<Shedule> list) {
+    public void updateItems(List<Schedule> list) {
         moves = list;
         notifyDataSetChanged();
     }
@@ -83,7 +81,7 @@ public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.
         TextView tv_day_name;
         RecyclerView recyclerView;
         Context context;
-        MarkSubjectSheduleAdapter rvSubjectSheduleAdapter;
+        TeacherSubjectSheduleAdapter rvSubjectSheduleAdapter;
 
         public OrderViewHolder(View view) {
             super(view);
@@ -95,6 +93,6 @@ public class MarkSheduleAdapter extends RecyclerView.Adapter<MarkSheduleAdapter.
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Shedule shedule, int position);
+        void onOrderClick(Schedule shedule, int position);
     }
 }

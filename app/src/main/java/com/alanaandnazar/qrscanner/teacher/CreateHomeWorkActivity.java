@@ -20,14 +20,13 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Subject;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -125,7 +124,7 @@ public class CreateHomeWorkActivity extends AppCompatActivity {
         progressBar.setTitle("Загрузка ...");
         progressBar.show();
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getSubjectsMark(token).enqueue(new Callback<List<Subject>>() {
             @Override
             public void onResponse(@NonNull Call<List<Subject>> call, @NonNull Response<List<Subject>> response) {
@@ -215,7 +214,7 @@ public class CreateHomeWorkActivity extends AppCompatActivity {
         progressBar.setTitle("Отправка ...");
         progressBar.show();
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.createHomework(token, id, subjectId, date, comm).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {

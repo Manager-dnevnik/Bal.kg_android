@@ -10,9 +10,9 @@ public class App extends Application {
 
     public static String BASE_URL ="https://bal.kg/api/";
 
-    public static BalAPI getApi() {
+    public static BalApi getApi() {
 
-        return RetrofitClient.getClient(BASE_URL).create(BalAPI.class);
+        return RetrofitClient.getClient(BASE_URL).create(BalApi.class);
         /* RetrofitHolder.getRetrofit().create(BalAPI.class);*/
     }
 

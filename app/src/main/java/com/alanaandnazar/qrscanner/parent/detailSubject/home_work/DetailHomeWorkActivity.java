@@ -14,7 +14,7 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Homework;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class DetailHomeWorkActivity extends AppCompatActivity {
 
     public void getChildrens() {
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getHomeWork(token, id, subject_id).enqueue(new Callback<List<Homework>>() {
             @Override
             public void onResponse(@NonNull Call<List<Homework>> call, @NonNull Response<List<Homework>> response) {

@@ -1,11 +1,11 @@
 package com.alanaandnazar.qrscanner.dagger.shedule;
 
-import com.alanaandnazar.qrscanner.parent.shedule.SheduleActivity;
+import com.alanaandnazar.qrscanner.parent.schedule.ScheduleActivity;
 
 import dagger.Subcomponent;
 
 @Subcomponent(modules = SheduleModule.class)
-@SheduleScope
+@ScheduleScope
 public interface SheduleComponent {
-    void inject(SheduleActivity activity);
+    void inject(ScheduleActivity activity);
 }

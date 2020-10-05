@@ -17,28 +17,23 @@ import android.widget.Toast;
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.activity.LoginActivity;
-import com.alanaandnazar.qrscanner.activity.MainActivity;
-import com.alanaandnazar.qrscanner.model.Children;
-import com.alanaandnazar.qrscanner.parent.note.NoteActivity;
+import com.alanaandnazar.qrscanner.model.Student;
+import com.alanaandnazar.qrscanner.parent.announcement.AnnouncementActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
-import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
-import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ParentActivity extends AppCompatActivity implements ChildrenAdapter.OnOrderListener {
+public class ParentActivity extends AppCompatActivity implements StudentsAdapter.onStudentClickListener {
 
     RecyclerView recyclerView;
     SaveUserToken saveToken = new SaveUserToken();
     String token;
-    ChildrenAdapter adapter;
+    StudentsAdapter adapter;
     Toolbar toolbar;
     ImageView notify;
 
@@ -56,32 +51,27 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         toolbar.setTitle("Родитель");
         init();
 
-        notify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ParentActivity.this, NoteActivity.class));
-            }
-        });
+        notify.setOnClickListener(v -> startActivity(new Intent(ParentActivity.this, AnnouncementActivity.class)));
     }
 
     private void init() {
-        adapter = new ChildrenAdapter(ParentActivity.this);
+        adapter = new StudentsAdapter(ParentActivity.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(ParentActivity.this);
         Log.e("TOKEN", token);
-        getChildrens();
+        getChildren();
     }
 
-    public void getChildrens() {
+    public void getChildren() {
 
-        BalAPI balAPI = App.getApi();
-        balAPI.getMyChildrens(token).enqueue(new Callback<List<Children>>() {
+        BalApi balAPI = App.getApi();
+        balAPI.getMyChildren(token).enqueue(new Callback<List<Student>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+            public void onResponse(@NonNull Call<List<Student>> call, @NonNull Response<List<Student>> response) {
                 if (response.code() == 401) {
 
-                    saveToken.ClearToken(ParentActivity.this);
+                    saveToken.clearToken(ParentActivity.this);
 
                     Intent i = new Intent(ParentActivity.this, LoginActivity.class);
                     startActivity(i);
@@ -89,7 +79,7 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
                 }
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("CHILD SIZE", response.body().size()+"");
+                        Log.e("CHILD SIZE", response.body().size() + "");
                         adapter.updateItems(response.body());
                     }
                 } else {
@@ -99,16 +89,16 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
             }
 
             @Override
-            public void onFailure(Call<List<Children>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Student>> call, @NonNull Throwable t) {
                 Toast.makeText(ParentActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Children children, int position) {
+    public void onStudentClick(Student student, int position) {
         Intent intent = new Intent(this, InfoChildActivity.class);
-        intent.putExtra("id", children.getId());
+        intent.putExtra("id", student.getId());
         startActivity(intent);
     }
 
@@ -121,7 +111,7 @@ public class ParentActivity extends AppCompatActivity implements ChildrenAdapter
         builder.setTitle("Выйти");
         builder.setMessage("Вы уверены что хотите выйти?");
         builder.setPositiveButton(android.R.string.ok, (dialog, which) -> {
-            saveToken.ClearToken(ParentActivity.this);
+            saveToken.clearToken(ParentActivity.this);
             Intent i = new Intent(ParentActivity.this, LoginActivity.class);
             startActivity(i);
             finish();

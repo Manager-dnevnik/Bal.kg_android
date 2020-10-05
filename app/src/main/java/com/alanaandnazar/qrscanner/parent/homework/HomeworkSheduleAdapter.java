@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.mark.MarkSubjectSheduleAdapter;
+import com.alanaandnazar.qrscanner.model.Schedule;
 
 import java.util.List;
 
 
 public class HomeworkSheduleAdapter extends RecyclerView.Adapter<HomeworkSheduleAdapter.OrderViewHolder> {
 
-    private List<Shedule> moves;
+    private List<Schedule> moves;
     private OnOrderListener listener;
     Context context;
     int id = 0;
@@ -37,7 +36,7 @@ public class HomeworkSheduleAdapter extends RecyclerView.Adapter<HomeworkShedule
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shedule, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +54,7 @@ public class HomeworkSheduleAdapter extends RecyclerView.Adapter<HomeworkShedule
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Shedule shedule = moves.get(position);
+        Schedule shedule = moves.get(position);
         holder.tv_day_name.setText(shedule.getDay_name());
 
 
@@ -72,7 +71,7 @@ public class HomeworkSheduleAdapter extends RecyclerView.Adapter<HomeworkShedule
         return moves == null ? 0 : moves.size();
     }
 
-    public void updateItems(List<Shedule> list) {
+    public void updateItems(List<Schedule> list) {
         moves = list;
         notifyDataSetChanged();
     }
@@ -94,6 +93,6 @@ public class HomeworkSheduleAdapter extends RecyclerView.Adapter<HomeworkShedule
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Shedule shedule, int position);
+        void onOrderClick(Schedule shedule, int position);
     }
 }

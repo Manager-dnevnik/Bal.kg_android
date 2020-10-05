@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".parent.shedule.SheduleActivity">
+    tools:context=".parent.schedule.ScheduleActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"

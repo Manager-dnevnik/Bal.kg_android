@@ -3,44 +3,39 @@ package com.alanaandnazar.qrscanner.teacher;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Children;
-import com.alanaandnazar.qrscanner.model.Classe;
+import com.alanaandnazar.qrscanner.model.Class;
 
 import java.util.List;
 
 
-public class ClasseAdapter extends RecyclerView.Adapter<ClasseAdapter.OrderViewHolder> {
-    private List<Classe> orders;
+public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.OrderViewHolder> {
+    private List<Class> classes;
     private OnOrderListener listener;
 
-    public ClasseAdapter(OnOrderListener listener) {
+    public ClassAdapter(OnOrderListener listener) {
         this.listener = listener;
     }
 
     public void removeItem(int position) {
-        orders.remove(position);
+        classes.remove(position);
         notifyItemRemoved(position);
     }
 
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_classe, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_class, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    listener.onOrderClick(orders.get(pos), pos);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onOrderClick(classes.get(pos), pos);
             }
         });
 
@@ -49,18 +44,18 @@ public class ClasseAdapter extends RecyclerView.Adapter<ClasseAdapter.OrderViewH
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Classe classe = orders.get(position);
+        Class classe = classes.get(position);
         holder.tv_title.setText(classe.getName());
 
     }
 
     @Override
     public int getItemCount() {
-        return orders == null ? 0 : orders.size();
+        return classes == null ? 0 : classes.size();
     }
 
-    public void updateItems(List<Classe> list) {
-        orders = list;
+    public void updateItems(List<Class> list) {
+        classes = list;
         notifyDataSetChanged();
     }
 
@@ -77,6 +72,6 @@ public class ClasseAdapter extends RecyclerView.Adapter<ClasseAdapter.OrderViewH
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Classe classe, int position);
+        void onOrderClick(Class classe, int position);
     }
 }

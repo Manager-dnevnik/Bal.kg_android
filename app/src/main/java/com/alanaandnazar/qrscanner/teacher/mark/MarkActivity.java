@@ -1,8 +1,7 @@
 package com.alanaandnazar.qrscanner.teacher.mark;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,18 +21,16 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
-import com.alanaandnazar.qrscanner.model.Mark;
 import com.alanaandnazar.qrscanner.model.Subject;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
-import com.alanaandnazar.qrscanner.teacher.children.ChildrenActivity;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -61,6 +58,7 @@ public class MarkActivity extends AppCompatActivity {
     ProgressDialog progressBar;
     Toolbar toolbar;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +79,7 @@ public class MarkActivity extends AppCompatActivity {
         idChild = getIntent().getIntExtra("id", 0);
         String firstName = getIntent().getStringExtra("name");
 
-        Log.e("INTENT", idChild+" "+firstName);
+        Log.e("INTENT", idChild + " " + firstName);
 
         name.setText(firstName);
 
@@ -93,32 +91,27 @@ public class MarkActivity extends AppCompatActivity {
         partsAdapter.setDropDownViewResource(R.layout.spiener_dropdown);
         partSpinner.setAdapter(partsAdapter);
 
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("dd.mm.YYYY").format(new Date());
 
         Log.e("TIME", timeStamp);
 
-        spinner.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                View view = getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                return false;
+        spinner.setOnTouchListener((v, event) -> {
+            View view = getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+            return false;
         });
 
-        partSpinner.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                View view = getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                return false;
+        partSpinner.setOnTouchListener((v, event) -> {
+            View view = getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+            return false;
         });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,24 +143,21 @@ public class MarkActivity extends AppCompatActivity {
             }
         });
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MarkActivity.this, R.layout.spiener_item, marks);
-                    dataAdapter.setDropDownViewResource(R.layout.spiener_dropdown);
-                    spinner.setAdapter(dataAdapter);
-                    spinner.setSelection(0);
-                    partSpinner.setVisibility(View.GONE);
-                    type_mark = "0";
-                } else {
-                    final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MarkActivity.this, R.layout.spiener_item, marks_part);
-                    dataAdapter.setDropDownViewResource(R.layout.spiener_dropdown);
-                    spinner.setAdapter(dataAdapter);
-                    spinner.setSelection(0);
-                    partSpinner.setVisibility(View.VISIBLE);
-                    type_mark = "part";
-                }
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                final ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(MarkActivity.this, R.layout.spiener_item, marks);
+                dataAdapter1.setDropDownViewResource(R.layout.spiener_dropdown);
+                spinner.setAdapter(dataAdapter1);
+                spinner.setSelection(0);
+                partSpinner.setVisibility(View.GONE);
+                type_mark = "0";
+            } else {
+                final ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(MarkActivity.this, R.layout.spiener_item, marks_part);
+                dataAdapter1.setDropDownViewResource(R.layout.spiener_dropdown);
+                spinner.setAdapter(dataAdapter1);
+                spinner.setSelection(0);
+                partSpinner.setVisibility(View.VISIBLE);
+                type_mark = "part";
             }
         });
 
@@ -180,43 +170,39 @@ public class MarkActivity extends AppCompatActivity {
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Поставить оценку");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
     public void onClick(View view) {
         String review = reviews.getText().toString();
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("dd.MM.YYYY").format(new Date());
 
         boolean bool = true;
-        if (review.length() == 0){
+        if (review.length() == 0) {
             Toast.makeText(this, "Комментарии ...", Toast.LENGTH_SHORT).show();
             bool = false;
         }
 
-        if (subjectSpinner.getSelectedItemPosition()==0){
+        if (subjectSpinner.getSelectedItemPosition() == 0) {
             Toast.makeText(this, "Выберите предмет!", Toast.LENGTH_SHORT).show();
             bool = false;
         }
 
-        if (!aSwitch.isChecked()){
-            if (spinner.getSelectedItemPosition()==0){
+        if (!aSwitch.isChecked()) {
+            if (spinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Поставьте оценку!", Toast.LENGTH_SHORT).show();
                 bool = false;
             }
-        }else {
-            if (partSpinner.getSelectedItemPosition()==0){
+        } else {
+            if (partSpinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Выберите четверть!", Toast.LENGTH_SHORT).show();
                 bool = false;
             }
-            if (spinner.getSelectedItemPosition()==0){
+            if (spinner.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Поставьте оценку!", Toast.LENGTH_SHORT).show();
                 bool = false;
             }
@@ -234,7 +220,7 @@ public class MarkActivity extends AppCompatActivity {
         progressBar.setTitle("Загрузка ...");
         progressBar.show();
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getSubjectsMark(token).enqueue(new Callback<List<Subject>>() {
             @Override
             public void onResponse(@NonNull Call<List<Subject>> call, @NonNull Response<List<Subject>> response) {
@@ -248,7 +234,7 @@ public class MarkActivity extends AppCompatActivity {
                         subjectList.addAll(response.body());
 
                         List<String> list = new ArrayList<>();
-                        for (int i = 0; i < subjectList.size(); i++){
+                        for (int i = 0; i < subjectList.size(); i++) {
                             list.add(subjectList.get(i).getName());
                         }
                         final ArrayAdapter<String> subjectAdapter = new ArrayAdapter<String>(MarkActivity.this, R.layout.spiener_item, list);
@@ -262,7 +248,7 @@ public class MarkActivity extends AppCompatActivity {
 
                                 idSubject = subjectList.get(position).getId();
 
-                                Toast.makeText(MarkActivity.this, ""+idSubject, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MarkActivity.this, "" + idSubject, Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -293,20 +279,19 @@ public class MarkActivity extends AppCompatActivity {
     }
 
 
-
     public void createMark(String token, int id, int subjectId, String mark, String date, String type_mark, String part, String comm) {
 
-        Log.e("CREATE", id+ " "+ subjectId+" "+mark+" "+date+" "+type_mark+" "+ part +" " + comm );
+        Log.e("CREATE", id + " " + subjectId + " " + mark + " " + date + " " + type_mark + " " + part + " " + comm);
 
         progressBar = new ProgressDialog(this);
         progressBar.setTitle("Отправка ...");
         progressBar.show();
 
-        BalAPI balAPI = App.getApi();
-        balAPI.createMark(token,id, subjectId, mark, date, type_mark, part, comm).enqueue(new Callback<ResponseBody>() {
+        BalApi balAPI = App.getApi();
+        balAPI.createMark(token, id, subjectId, mark, date, type_mark, part, comm).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
-                Log.e("CODE", response.code()+"");
+                Log.e("CODE", response.code() + "");
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         progressBar.dismiss();

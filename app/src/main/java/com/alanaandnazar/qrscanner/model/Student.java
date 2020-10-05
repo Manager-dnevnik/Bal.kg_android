@@ -3,7 +3,7 @@ package com.alanaandnazar.qrscanner.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Children {
+public class Student {
 
     int id;
     String first_name;
@@ -16,7 +16,7 @@ public class Children {
     String status;
     @SerializedName("class")
     @Expose
-    private String klass;
+    private String grade;
     String school;
     String img;
     String fio;
@@ -121,12 +121,12 @@ public class Children {
         this.status = status;
     }
 
-    public String getKlass() {
-        return klass;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setKlass(String klass) {
-        this.klass = klass;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public String getSchool() {

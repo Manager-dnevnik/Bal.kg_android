@@ -1,10 +1,9 @@
-package com.alanaandnazar.qrscanner.teacher.shedule;
+package com.alanaandnazar.qrscanner.parent.announcement;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,23 +14,23 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
+import com.alanaandnazar.qrscanner.model.Announcement;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TeacherSheduleActivity extends AppCompatActivity implements TeacherSheduleAdapter.OnOrderListener {
+public class AnnouncementActivity extends AppCompatActivity implements AnnouncementAdapter.OnOrderListener {
 
     RecyclerView recyclerView;
     SaveUserToken saveToken = new SaveUserToken();
     String token;
-    TeacherSheduleAdapter adapter;
+    AnnouncementAdapter adapter;
     Toolbar toolbar;
     int id;
     Button btn_create;
@@ -48,66 +47,54 @@ public class TeacherSheduleActivity extends AppCompatActivity implements Teacher
         toolbar = findViewById(R.id.toolbar);
         initToolbar();
         init();
-
     }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Расписание");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Уведомление");
+        toolbar.setNavigationOnClickListener(v -> finish());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
 
-
     private void init() {
         id = getIntent().getIntExtra("id", 0);
-        recyclerView = findViewById(R.id.recyclerView);
-        adapter = new TeacherSheduleAdapter(TeacherSheduleActivity.this, TeacherSheduleActivity.this, id);
-        recyclerView.setHasFixedSize(true);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(mGridLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.HORIZONTAL));
-        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.VERTICAL));
+        adapter = new AnnouncementAdapter(AnnouncementActivity.this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        token = saveToken.getToken(TeacherSheduleActivity.this);
+        token = saveToken.getToken(AnnouncementActivity.this);
         Log.e("TOKEN", token);
         getSubject();
     }
 
     public void getSubject() {
 
-        BalAPI balAPI = App.getApi();
-        balAPI.getShedulesTeacher(token, id).enqueue(new Callback<List<Shedule>>() {
+        BalApi balAPI = App.getApi();
+        balAPI.getNote(token).enqueue(new Callback<List<Announcement>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Shedule>> call, @NonNull Response<List<Shedule>> response) {
+            public void onResponse(@NonNull Call<List<Announcement>> call, @NonNull Response<List<Announcement>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("Classes SIZE", response.body().size()+"");
+                        Log.e("Classes SIZE", response.body().size() + "");
                         adapter.updateItems(response.body());
                     }
                 } else {
-                    Toast.makeText(TeacherSheduleActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AnnouncementActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Shedule>> call, Throwable t) {
-                Toast.makeText(TeacherSheduleActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
+            public void onFailure(@NonNull Call<List<Announcement>> call, Throwable t) {
+                Toast.makeText(AnnouncementActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Shedule shedule, int position) {
+    public void onOrderClick(Announcement announcement, int position) {
 
     }
 

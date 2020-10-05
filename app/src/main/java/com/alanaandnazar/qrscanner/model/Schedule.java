@@ -2,7 +2,7 @@ package com.alanaandnazar.qrscanner.model;
 
 import java.util.List;
 
-public class Shedule {
+public class Schedule {
 
     private String day_name;
     private List<Subject> list_subjects;

@@ -17,9 +17,9 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.parent.ParentActivity;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
-import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
+import com.alanaandnazar.qrscanner.teacher.TeacherMainActivity;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText loginEdit, passwordEdit;
     Button btnEnter;
     SaveUserToken saveUserToken = new SaveUserToken();
-    BalAPI balAPI;
+    BalApi balAPI;
     String login, password;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.body().getUser_type().equals("parent")) {
                             clazz = ParentActivity.class;
                         }else if (response.body().getUser_type().equals("teacher")) {
-                            clazz = TeacherActivity.class;
+                            clazz = TeacherMainActivity.class;
                         }else {
                             clazz = MainActivity.class;
                         }

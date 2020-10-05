@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.alanaandnazar.qrscanner.parent.ParentActivity;
-import com.alanaandnazar.qrscanner.teacher.TeacherActivity;
+import com.alanaandnazar.qrscanner.teacher.TeacherMainActivity;
 import com.bumptech.glide.Glide;
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
@@ -35,7 +35,7 @@ SaveUserToken saveUserToken = new SaveUserToken();
                     if (type.equals("parent")) {
                         clazz = ParentActivity.class;
                     }else if (type.equals("teacher")) {
-                        clazz = TeacherActivity.class;
+                        clazz = TeacherMainActivity.class;
                     }else {
                         clazz = MainActivity.class;
                     }

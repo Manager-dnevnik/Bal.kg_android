@@ -14,13 +14,14 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.model.Student;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.teacher.mark.MarkActivity;
 import com.alanaandnazar.qrscanner.teacher.subject.SubjectTeacherActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,13 +54,8 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Ученики");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
@@ -77,10 +73,10 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
 
     public void getChildrens() {
 
-        BalAPI balAPI = App.getApi();
-        balAPI.getChildrens(token, id).enqueue(new Callback<List<Children>>() {
+        BalApi balAPI = App.getApi();
+        balAPI.getStudents(token, id).enqueue(new Callback<List<Student>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+            public void onResponse(@NonNull Call<List<Student>> call, @NonNull Response<List<Student>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("Classes SIZE", response.body().size()+"");
@@ -92,18 +88,18 @@ public class ChildrenActivity extends AppCompatActivity implements ChildrenAdapt
             }
 
             @Override
-            public void onFailure(Call<List<Children>> call, Throwable t) {
+            public void onFailure(Call<List<Student>> call, Throwable t) {
                 Toast.makeText(ChildrenActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Children children, int position) {
+    public void onOrderClick(Student student, int position) {
 
         Intent intent = new Intent(this, MarkActivity.class);
-        intent.putExtra("class_id", children.getId());
-        intent.putExtra("name", children.getFio());
+        intent.putExtra("class_id", student.getId());
+        intent.putExtra("name", student.getFio());
         startActivity(intent);
     }
 

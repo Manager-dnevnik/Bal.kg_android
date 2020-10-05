@@ -1,6 +1,6 @@
 package com.alanaandnazar.qrscanner.model;
 
-public class Note {
+public class Announcement {
     String about;
     String date;
 

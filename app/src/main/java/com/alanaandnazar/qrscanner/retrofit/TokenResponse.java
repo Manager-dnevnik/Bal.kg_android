@@ -1,5 +1,7 @@
 package com.alanaandnazar.qrscanner.retrofit;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -37,6 +39,7 @@ public class TokenResponse {
         this.fio = fio;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "TokenResponse{" +

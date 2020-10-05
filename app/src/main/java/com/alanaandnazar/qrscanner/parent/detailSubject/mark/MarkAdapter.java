@@ -1,5 +1,8 @@
 package com.alanaandnazar.qrscanner.parent.detailSubject.mark;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
@@ -12,14 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Mark;
 
 import java.util.List;
 
 
 public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolder> {
-    private List<Mark> orders;
+    private List<Mark> marks;
     Context context;
 
     public MarkAdapter(Context context) {
@@ -27,7 +29,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
     }
 
     public void removeItem(int position) {
-        orders.remove(position);
+        marks.remove(position);
         notifyItemRemoved(position);
     }
 
@@ -36,13 +38,10 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mark, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
 //                    listener.onOrderClick(orders.get(pos), pos);
-                }
             }
         });
 
@@ -51,48 +50,16 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Mark mark = orders.get(position);
-        ViewGroup.LayoutParams params = holder.card_view.getLayoutParams();
-
-        Log.e("MARK", mark.getComm() + " " + mark.getDate());
-        if (mark.getType_mark().equals("part")) {
-            holder.linePart.setVisibility(View.VISIBLE);
-        } else {
-            holder.linePart.setVisibility(View.GONE);
-        }
-        holder.tvPart.setText(mark.getPart());
-        holder.tvComm.setText(mark.getComm());
-        holder.tvDate.setText(mark.getDate());
-//        if(mark.getMark().equals("1")){
-//            holder.tvMark.setText("Н/Б");
-//        }else{
-//            holder.tvMark.setText(mark.getMark());
-//        }
-
-
-        if (mark.getMark()==null || mark.getMark().isEmpty()){
-            params.height = 0;
-            params.width = 0;
-            holder.card_view.setLayoutParams(params);
-           // return;
-        } else {
-            holder.tvMark.setText(mark.getMark());
-
-        }
-//        if (mark.getMark().isEmpty()){
-//            params.height = 0;
-//            params.width = 0;
-//            holder.card_view.setLayoutParams(params);        }
-
+        holder.onBind(marks.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return orders == null ? 0 : orders.size();
+        return marks != null ? marks.size() : 0;
     }
 
-    public void updateItems(List<Mark> list) {
-        orders = list;
+    public void setItems(List<Mark> list) {
+        marks = list;
         notifyDataSetChanged();
     }
 
@@ -112,6 +79,29 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
             tvDate = view.findViewById(R.id.tv_date);
             linePart = view.findViewById(R.id.line_part);
             card_view = view.findViewById(R.id.card_view);
+        }
+
+        public void onBind(Mark mark) {
+            ViewGroup.LayoutParams params = card_view.getLayoutParams();
+            Log.e("MARK", mark.getComm() + " " + mark.getDate());
+            if (mark.getType_mark().equals("part")) {
+                linePart.setVisibility(View.VISIBLE);
+            } else {
+                linePart.setVisibility(View.GONE);
+            }
+            tvPart.setText(mark.getPart());
+            tvComm.setText(mark.getComm());
+            tvDate.setText(mark.getDate());
+
+            if (mark.getMark() == null || mark.getMark().isEmpty()) {
+                params.height = 0;
+                params.width = 0;
+                card_view.setLayoutParams(params);
+                // return;
+            } else {
+                tvMark.setText(mark.getMark());
+
+            }
         }
     }
 

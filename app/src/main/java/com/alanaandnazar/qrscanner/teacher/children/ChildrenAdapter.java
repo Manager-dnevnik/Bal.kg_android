@@ -10,17 +10,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Children;
-import com.alanaandnazar.qrscanner.model.Classe;
+import com.alanaandnazar.qrscanner.model.Student;
 
 import java.util.List;
 
 
 public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderViewHolder> {
-    private List<Children> orders;
+    private List<Student> orders;
     private OnOrderListener listener;
 
 
@@ -36,15 +34,12 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_children, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    listener.onOrderClick(orders.get(pos), pos);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onOrderClick(orders.get(pos), pos);
             }
         });
 
@@ -54,9 +49,9 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Children children = orders.get(position);
-        holder.tv_title.setText(children.getFio());
-        holder.spinner.setSelection(children.getMark_position());
+        Student student = orders.get(position);
+        holder.tv_title.setText(student.getFio());
+        holder.spinner.setSelection(student.getMark_position());
 
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -64,8 +59,8 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
                                        int position, long id) {
 
                 String mark = holder.spinner.getSelectedItem().toString();
-                children.setMark(mark);
-                children.setMark_position(position);
+                student.setMark(mark);
+                student.setMark_position(position);
             }
 
             @Override
@@ -80,7 +75,7 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
         return orders == null ? 0 : orders.size();
     }
 
-    public void updateItems(List<Children> list) {
+    public void updateItems(List<Student> list) {
         orders = list;
         notifyDataSetChanged();
     }
@@ -98,9 +93,9 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
             spinner = itemView.findViewById(R.id.spinner);
 
             spinner.setVisibility(View.VISIBLE);
-            String marks[] = {"", "5", "4", "3", "2","н"};
+            String[] marks = {"", "5", "4", "3", "2", "н"};
 
-            final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, R.layout.spiener_item, marks);
+            final ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context, R.layout.spiener_item, marks);
             dataAdapter.setDropDownViewResource(R.layout.spiener_dropdown2);
             spinner.setAdapter(dataAdapter);
 
@@ -108,6 +103,6 @@ public class ChildrenAdapter extends RecyclerView.Adapter<ChildrenAdapter.OrderV
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Children children, int position);
+        void onOrderClick(Student student, int position);
     }
 }

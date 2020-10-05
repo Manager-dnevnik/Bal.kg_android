@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,10 +14,9 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
+import com.alanaandnazar.qrscanner.model.Schedule;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
 
@@ -81,10 +79,10 @@ public class ParentHomeworkActivity extends AppCompatActivity implements Homewor
 
     public void getSubject() {
 
-        BalAPI balAPI = App.getApi();
-        balAPI.getShedulesHomwork(token, id).enqueue(new Callback<List<Shedule>>() {
+        BalApi balAPI = App.getApi();
+        balAPI.getShedulesHomwork(token, id).enqueue(new Callback<List<Schedule>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Shedule>> call, @NonNull Response<List<Shedule>> response) {
+            public void onResponse(@NonNull Call<List<Schedule>> call, @NonNull Response<List<Schedule>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         Log.e("Classes SIZE", response.body().size()+"");
@@ -96,14 +94,14 @@ public class ParentHomeworkActivity extends AppCompatActivity implements Homewor
             }
 
             @Override
-            public void onFailure(Call<List<Shedule>> call, Throwable t) {
+            public void onFailure(Call<List<Schedule>> call, Throwable t) {
                 Toast.makeText(ParentHomeworkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
-    public void onOrderClick(Shedule shedule, int position) {
+    public void onOrderClick(Schedule shedule, int position) {
 
     }
 

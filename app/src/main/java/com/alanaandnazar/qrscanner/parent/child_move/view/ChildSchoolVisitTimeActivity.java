@@ -1,95 +1,75 @@
-package com.alanaandnazar.qrscanner.parent.shedule;
+package com.alanaandnazar.qrscanner.parent.child_move.view;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-
 import com.alanaandnazar.qrscanner.BaseApplication;
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.dagger.child_move.ChildMoveModule;
-import com.alanaandnazar.qrscanner.dagger.shedule.SheduleModule;
 import com.alanaandnazar.qrscanner.model.ChildMove;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
 import com.alanaandnazar.qrscanner.parent.child_move.presenter.ChildMoveAdapter;
 import com.alanaandnazar.qrscanner.parent.child_move.presenter.IChildMovePresenter;
-import com.alanaandnazar.qrscanner.parent.child_move.view.ChildMoveActivity;
-import com.alanaandnazar.qrscanner.parent.child_move.view.IChildMoveView;
-import com.alanaandnazar.qrscanner.parent.shedule.presenter.IShedulePresenter;
-import com.alanaandnazar.qrscanner.parent.shedule.presenter.SheduleAdapter;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class SheduleActivity extends AppCompatActivity implements ISheduleView, SheduleAdapter.OnOrderListener {
+public class ChildSchoolVisitTimeActivity extends AppCompatActivity implements IChildMoveView, ChildMoveAdapter.OnOrderListener {
 
-    RecyclerView recyclerView;
-    SheduleAdapter adapter;
     ProgressDialog progressBar;
-
+    RecyclerView recyclerView;
+    ChildMoveAdapter adapter;
 
     @Inject
-    IShedulePresenter presenter;
-
+    IChildMovePresenter presenter;
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shedule);
+        setContentView(R.layout.activity_child_move);
         initComponents();
-        initToolbar();
         init();
+        initToolbar();
     }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Расписание");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("Посещения");
+        toolbar.setNavigationOnClickListener(v -> finish());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     private void initComponents() {
         BaseApplication application = (BaseApplication) getApplicationContext();
-        application.getAppComponent().plus(new SheduleModule()).inject(this);
+        application.getAppComponent().plus(new ChildMoveModule()).inject(this);
     }
 
     private void init() {
-        int id = getIntent().getIntExtra("id", 0);
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new SheduleAdapter(SheduleActivity.this, SheduleActivity.this, id);
-        recyclerView.setHasFixedSize(true);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
-        recyclerView.setLayoutManager(mGridLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.HORIZONTAL));
-        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.VERTICAL));
+        adapter = new ChildMoveAdapter(ChildSchoolVisitTimeActivity.this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
+        int id = getIntent().getIntExtra("id", 0);
 
         presenter.bindView(this);
-        presenter.getShedules(id);
+        presenter.getChildMoves(id);
     }
 
-
     @Override
-    public void onSuccess(List<Shedule> shedules) {
-        adapter.updateItems(shedules);
+    public void onSuccess(List<ChildMove> childMove) {
+        adapter.updateItems(childMove);
     }
 
     @Override
@@ -111,7 +91,11 @@ public class SheduleActivity extends AppCompatActivity implements ISheduleView, 
     }
 
     @Override
-    public void onOrderClick(Shedule shedule, int position) {
+    public void onOrderClick(ChildMove childMove, int position) {
+
+    }
+
+    public void onClick(View view) {
 
     }
 }

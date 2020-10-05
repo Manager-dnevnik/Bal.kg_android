@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/end_main_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.AutoScannerActivity"></activity>
+        <activity android:name=".activity.AutoScannerActivity" />
         <activity
             android:name=".activity.SplashScreenActivity"
             android:theme="@style/SplashTheme">
@@ -31,16 +31,16 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".teacher.TeacherActivity"
+            android:name=".teacher.TeacherMainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".parent.InfoChildActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".parent.child_move.view.ChildMoveActivity"
+            android:name=".parent.child_move.view.ChildSchoolVisitTimeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".parent.shedule.SheduleActivity"
+            android:name=".parent.schedule.ScheduleActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".parent.detailSubject.SubjectActivity"
@@ -51,13 +51,14 @@
         <activity android:name=".teacher.mark.MarkActivity" />
         <activity android:name=".teacher.CreateHomeWorkActivity" />
         <activity android:name=".teacher.subject.SubjectTeacherActivity" />
-        <activity android:name=".parent.note.NoteActivity" />
+        <activity android:name=".parent.announcement.AnnouncementActivity" />
         <activity android:name=".parent.mark.MarkActivity" />
         <activity android:name=".parent.homework.ParentHomeworkActivity" />
         <activity android:name=".parent.detailSubject.home_work.DetailHomeWorkActivity" />
         <activity android:name=".parent.detailSubject.mark.DetailMarkActivity" />
-        <activity android:name=".teacher.shedule.TeacherSheduleActivity" />
+        <activity android:name=".teacher.schedule.TeachersTimeTableActivity" />
         <activity android:name=".teacher.children.ChildrenMarkActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -68,6 +69,7 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.camera"
