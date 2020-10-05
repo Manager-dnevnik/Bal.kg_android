@@ -1,4 +1,4 @@
-package com.alanaandnazar.qrscanner.parent.shedule.presenter;
+package com.alanaandnazar.qrscanner.parent.schedule.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,16 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.ChildMove;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.shedule.SheduleActivity;
+import com.alanaandnazar.qrscanner.model.Schedule;
 
 import java.util.List;
 
 
 public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderViewHolder> {
 
-    private List<Shedule> moves;
+    private List<Schedule> moves;
     private OnOrderListener listener;
     Context context;
     int id = 0;
@@ -38,7 +36,7 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shedule, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +54,7 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Shedule shedule = moves.get(position);
+        Schedule shedule = moves.get(position);
         holder.tv_day_name.setText(shedule.getDay_name());
 
 
@@ -73,7 +71,7 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
         return moves == null ? 0 : moves.size();
     }
 
-    public void updateItems(List<Shedule> list) {
+    public void updateItems(List<Schedule> list) {
         moves = list;
         notifyDataSetChanged();
     }
@@ -95,6 +93,6 @@ public class SheduleAdapter extends RecyclerView.Adapter<SheduleAdapter.OrderVie
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Shedule shedule, int position);
+        void onOrderClick(Schedule shedule, int position);
     }
 }

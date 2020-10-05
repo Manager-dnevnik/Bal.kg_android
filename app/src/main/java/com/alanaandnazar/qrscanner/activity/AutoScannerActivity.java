@@ -22,7 +22,7 @@ import com.alanaandnazar.qrscanner.Constants;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Person;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
 import com.google.zxing.Result;
 
@@ -52,7 +52,7 @@ public class AutoScannerActivity extends AppCompatActivity implements ZXingScann
     Realm realm;
     ProgressDialog progressBar;
     Person person = new Person();
-    BalAPI balAPI;
+    BalApi balAPI;
     Toast toast;
 
     @Override
@@ -286,7 +286,7 @@ public class AutoScannerActivity extends AppCompatActivity implements ZXingScann
                 Log.e("TAG", "message " + response.message());
                 Log.e("TAG", "message " + response.body());
                 if (response.code() == 401) {
-                    saveUserToken.ClearToken(AutoScannerActivity.this);
+                    saveUserToken.clearToken(AutoScannerActivity.this);
                     Toast.makeText(AutoScannerActivity.this, "Сессия устарела, Пожалуйста перезайдите", Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(AutoScannerActivity.this, LoginActivity.class);

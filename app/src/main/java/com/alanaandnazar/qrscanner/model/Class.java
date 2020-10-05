@@ -1,6 +1,6 @@
 package com.alanaandnazar.qrscanner.model;
 
-public class Classe {
+public class Class {
 
     int id;
     String name;

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Subject;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.OrderVie
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_children, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

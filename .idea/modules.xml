@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-bal.kg.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidStudioProjects-bal.kg.iml" group="bal.kg" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bal.kg.iml" filepath="$PROJECT_DIR$/bal.kg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/bal.kg-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/bal.kg-app.iml" group="bal.kg/app" />
     </modules>
   </component>
 </project>

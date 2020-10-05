@@ -12,7 +12,7 @@ public class SaveUserToken {
     SharedPreferences mSettings;
 
     public void saveToken(String Token, String userType, Context context) {
-        mSettings = context.getSharedPreferences(APP_PREFERENCES, context.MODE_PRIVATE);
+        mSettings = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putString("Token", Token);
@@ -21,17 +21,17 @@ public class SaveUserToken {
     }
 
     public String getToken(Context context) {
-        mSettings = context.getSharedPreferences(APP_PREFERENCES, context.MODE_PRIVATE);
+        mSettings = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         return mSettings.getString("Token", "empty");
     }
 
     public String getType(Context context) {
-        mSettings = context.getSharedPreferences(APP_PREFERENCES, context.MODE_PRIVATE);
+        mSettings = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         return mSettings.getString("Type", "empty");
     }
 
-    public void ClearToken(Context context) {
-        mSettings = context.getSharedPreferences(APP_PREFERENCES, context.MODE_PRIVATE);
+    public void clearToken(Context context) {
+        mSettings = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSettings.edit().clear();
         editor.apply();
     }

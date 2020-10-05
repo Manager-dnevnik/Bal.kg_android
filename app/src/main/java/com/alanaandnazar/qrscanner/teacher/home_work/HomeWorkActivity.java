@@ -1,25 +1,20 @@
 package com.alanaandnazar.qrscanner.teacher.home_work;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Homework;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
 
@@ -80,7 +75,7 @@ public class HomeWorkActivity extends AppCompatActivity {
 
     public void getChildrens() {
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getHomeWork(token, id, subject_id).enqueue(new Callback<List<Homework>>() {
             @Override
             public void onResponse(@NonNull Call<List<Homework>> call, @NonNull Response<List<Homework>> response) {

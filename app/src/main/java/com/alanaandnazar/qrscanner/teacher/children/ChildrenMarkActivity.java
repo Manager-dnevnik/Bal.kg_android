@@ -1,5 +1,6 @@
 package com.alanaandnazar.qrscanner.teacher.children;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -23,9 +22,9 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
+import com.alanaandnazar.qrscanner.model.Student;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.teacher.subject.SubjectTeacherActivity;
 
 import java.io.IOException;
@@ -33,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenAdapter.OnOrderListener {
 
     Spinner partSpinner;
-    String parts[] = {"Четверть:", "1", "2", "3", "4"};
+    String[] parts = {"Четверть:", "1", "2", "3", "4"};
     String time;
     Switch aSwitch;
     EditText reviews;
@@ -59,8 +59,9 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
     int class_id;
     int subject_id;
     TextView name;
-    List<Children> arrayList;
+    List<Student> arrayList;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +83,18 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         partsAdapter.setDropDownViewResource(R.layout.spiener_dropdown);
         partSpinner.setAdapter(partsAdapter);
 
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("dd.mm.yyyy").format(new Date());
 
         Log.e("TIME", timeStamp);
 
-        partSpinner.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                View view = getCurrentFocus();
-                if (view != null) {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-                return false;
+        partSpinner.setOnTouchListener((v, event) -> {
+            View view = getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+            return false;
         });
 
 
@@ -114,14 +113,11 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
             }
         });
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!isChecked) {
-                    type_mark = "0";
-                } else {
-                    type_mark = "part";
-                }
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                type_mark = "0";
+            } else {
+                type_mark = "part";
             }
         });
 
@@ -135,7 +131,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         setSupportActionBar(toolbar);
         toolbar.setTitle("Поставить оценку");
         toolbar.setNavigationOnClickListener(v -> finish());
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
     }
 
     private void init() {
@@ -146,12 +142,13 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         recyclerView.setAdapter(adapter);
 
         token = saveToken.getToken(ChildrenMarkActivity.this);
-        getChildrens();
+        getStudents();
     }
 
 
     public void onClickMark(View view) {
         String review = reviews.getText().toString();
+        @SuppressLint("SimpleDateFormat")
         String timeStamp = new SimpleDateFormat("dd.MM.yyyy").format(new Date());
 
         boolean bool = true;
@@ -173,12 +170,12 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
     }
 
 
-    public void getChildrens() {
+    public void getStudents() {
 
-        BalAPI balAPI = App.getApi();
-        balAPI.getChildrens(token, class_id).enqueue(new Callback<List<Children>>() {
+        BalApi balAPI = App.getApi();
+        balAPI.getStudents(token, class_id).enqueue(new Callback<List<Student>>() {
             @Override
-            public void onResponse(@NonNull Call<List<Children>> call, @NonNull Response<List<Children>> response) {
+            public void onResponse(@NonNull Call<List<Student>> call, @NonNull Response<List<Student>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         arrayList = response.body();
@@ -190,7 +187,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
             }
 
             @Override
-            public void onFailure(Call<List<Children>> call, Throwable t) {
+            public void onFailure(Call<List<Student>> call, Throwable t) {
                 Toast.makeText(ChildrenMarkActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });
@@ -203,48 +200,40 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         progressBar.setMessage("Загрузка...");
         progressBar.show();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    postCriterias(token, subject_id, timeStamp, type_mark, part, review);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.dismiss();
-                            Toast.makeText(ChildrenMarkActivity.this, "Успешно отправлено!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.dismiss();
-                            Toast.makeText(ChildrenMarkActivity.this, "Ошибка отправки!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
+        new Thread(() -> {
+            try {
+                postCriteries(token, subject_id, timeStamp, type_mark, part, review);
+                runOnUiThread(() -> {
+                    progressBar.dismiss();
+                    Toast.makeText(ChildrenMarkActivity.this, "Успешно отправлено!", Toast.LENGTH_SHORT).show();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    progressBar.dismiss();
+                    Toast.makeText(ChildrenMarkActivity.this, "Ошибка отправки!", Toast.LENGTH_SHORT).show();
+                });
             }
+
         }).start();
 
     }
 
-    private void postCriterias(String token, int subjectId, String date, String type_mark, String part, String comm) throws Exception {
-        BalAPI api = App.getApi();
+    private void postCriteries(String token, int subjectId, String date, String type_mark, String part, String comm) throws Exception {
+        BalApi api = App.getApi();
         Call<ResponseBody> call;
-        for (Children children : arrayList) {
+        for (Student student : arrayList) {
 
-            if (children.getMark_position()!=0){
-                Log.e("MARK", children.getMark() + " " + children.getFio());
-                Log.e("MARK", token + " " + children.getId() + " " + subjectId + " " + children.getMark() + " " + date + " " + type_mark + " " + part + " " + comm);
-                call = api.createMark(token, children.getId(), subjectId, children.getMark(), date, type_mark, part, comm);
+            if (student.getMark_position() != 0) {
+                Log.e("MARK", student.getMark() + " " + student.getFio());
+                Log.e("MARK", token + " " + student.getId() + " " + subjectId + " " + student.getMark() + " " + date + " " + type_mark + " " + part + " " + comm);
+                call = api.createMark(token, student.getId(), subjectId, student.getMark(), date, type_mark, part, comm);
                 Response<ResponseBody> response = call.execute();
 
 
                 if (response.isSuccessful()) {
-                    Log.e("Responce : ", response.body().toString() + " - " + response.body().string());
+                    assert response.body() != null;
+                    Log.e("Response : ", response.body().toString() + " - " + response.body().string());
                 } else {
                     throw new Exception();
                 }
@@ -260,7 +249,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
         progressBar.setTitle("Отправка ...");
         progressBar.show();
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.createMark(token, id, subjectId, mark, date, type_mark, part, comm).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -276,6 +265,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
                     if (progressBar != null && progressBar.isShowing()) progressBar.dismiss();
                     progressBar = null;
                     try {
+                        assert response.errorBody() != null;
                         Log.e("ERROR", response.errorBody().string());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -286,7 +276,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 progressBar.dismiss();
                 Log.e("FAIL", t.getMessage());
 
@@ -297,7 +287,7 @@ public class ChildrenMarkActivity extends AppCompatActivity implements ChildrenA
 
 
     @Override
-    public void onOrderClick(Children children, int position) {
+    public void onOrderClick(Student student, int position) {
 //        Intent intent = new Intent(this, MarkActivity.class);
 //        intent.putExtra("class_id", children.getId());
 //        intent.putExtra("name", children.getFio());

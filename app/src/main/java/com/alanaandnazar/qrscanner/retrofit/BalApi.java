@@ -1,14 +1,12 @@
 package com.alanaandnazar.qrscanner.retrofit;
 
-import android.database.Observable;
-
 import com.alanaandnazar.qrscanner.model.ChildMove;
-import com.alanaandnazar.qrscanner.model.Children;
-import com.alanaandnazar.qrscanner.model.Classe;
+import com.alanaandnazar.qrscanner.model.Student;
+import com.alanaandnazar.qrscanner.model.Class;
 import com.alanaandnazar.qrscanner.model.Homework;
 import com.alanaandnazar.qrscanner.model.Mark;
-import com.alanaandnazar.qrscanner.model.Note;
-import com.alanaandnazar.qrscanner.model.Shedule;
+import com.alanaandnazar.qrscanner.model.Announcement;
+import com.alanaandnazar.qrscanner.model.Schedule;
 import com.alanaandnazar.qrscanner.model.Subject;
 
 import java.util.List;
@@ -17,7 +15,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -26,7 +23,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
-public interface BalAPI {
+public interface BalApi {
 
     @POST("/api/auth")
     @Multipart
@@ -48,16 +45,16 @@ public interface BalAPI {
                                  @Part() MultipartBody.Part mFile);
 
     @GET("/api/mychildrens")
-    Call<List<Children>> getMyChildrens(@Query("token") String token);
+    Call<List<Student>> getMyChildren(@Query("token") String token);
 
     @GET("/api/childinfo")
-    Call<Children> getChildInfo(@Query("token") String token, @Query("id") int id);
+    Call<Student> getChildInfo(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/childmove")
     Call<List<ChildMove>> getChildMove(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/childschedule")
-    Call<List<Shedule>> getShedules(@Query("token") String token, @Query("id") int id);
+    Call<List<Schedule>> getSchedules(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/marks")
     Call<List<Mark>> getSubject(@Query("token") String token, @Query("id") int id, @Query("subject_id") int subject_id);
@@ -67,16 +64,16 @@ public interface BalAPI {
 
 
     @GET("/api/classes")
-    Call<List<Classe>> getClasses(@Query("token") String token);
+    Call<List<Class>> getClasses(@Query("token") String token);
 
     @GET("/api/childrens")
-    Call<List<Children>> getChildrens(@Query("token") String token, @Query("class_id") int class_id);
+    Call<List<Student>> getStudents(@Query("token") String token, @Query("class_id") int class_id);
 
     @GET("/api/subjects")
     Call<List<Subject>> getSubjectsMark(@Query("token") String token);
 
     @GET("/api/note")
-    Call<List<Note>> getNote(@Query("token") String token);
+    Call<List<Announcement>> getNote(@Query("token") String token);
 
 //    @GET("/api/homework")
 //    Call<List<Homework>> getHomework(@Query("token") String token,
@@ -104,11 +101,11 @@ public interface BalAPI {
 
 
     @GET("/api/marks")
-    Call<List<Shedule>> getShedulesMark(@Query("token") String token, @Query("id") int id);
+    Call<List<Schedule>> getShedulesMark(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/homework")
-    Call<List<Shedule>> getShedulesHomwork(@Query("token") String token, @Query("id") int id);
+    Call<List<Schedule>> getShedulesHomwork(@Query("token") String token, @Query("id") int id);
 
     @GET("/api/childschedule")
-    Call<List<Shedule>> getShedulesTeacher(@Query("token") String token, @Query("class_id") int class_id);
+    Call<List<Schedule>> getShedulesTeacher(@Query("token") String token, @Query("class_id") int class_id);
 }

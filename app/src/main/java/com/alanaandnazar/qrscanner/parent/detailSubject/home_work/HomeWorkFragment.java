@@ -14,14 +14,9 @@ import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
-import com.alanaandnazar.qrscanner.model.Children;
 import com.alanaandnazar.qrscanner.model.Homework;
-import com.alanaandnazar.qrscanner.model.Mark;
-import com.alanaandnazar.qrscanner.parent.ChildrenAdapter;
-import com.alanaandnazar.qrscanner.parent.ParentActivity;
-import com.alanaandnazar.qrscanner.parent.detailSubject.mark.MarkAdapter;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 
 import java.util.List;
 
@@ -68,7 +63,7 @@ public class HomeWorkFragment extends Fragment {
 
     public void getChildrens() {
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getHomeWork(token, id, subject_id).enqueue(new Callback<List<Homework>>() {
             @Override
             public void onResponse(@NonNull Call<List<Homework>> call, @NonNull Response<List<Homework>> response) {

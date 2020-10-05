@@ -1,4 +1,4 @@
-package com.alanaandnazar.qrscanner.teacher.shedule;
+package com.alanaandnazar.qrscanner.parent.mark;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,20 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.model.Shedule;
-import com.alanaandnazar.qrscanner.parent.mark.MarkSubjectSheduleAdapter;
+import com.alanaandnazar.qrscanner.model.Schedule;
 
 import java.util.List;
 
 
-public class TeacherSheduleAdapter extends RecyclerView.Adapter<TeacherSheduleAdapter.OrderViewHolder> {
+public class MarkScheduleAdapter extends RecyclerView.Adapter<MarkScheduleAdapter.OrderViewHolder> {
 
-    private List<Shedule> moves;
+    private List<Schedule> moves;
     private OnOrderListener listener;
     Context context;
-    int id = 0;
+    int id;
 
-    public TeacherSheduleAdapter(Context context, OnOrderListener listener, int id) {
+    public MarkScheduleAdapter(Context context, OnOrderListener listener, int id) {
         this.listener = listener;
         this.context = context;
         this.id = id;
@@ -37,16 +36,13 @@ public class TeacherSheduleAdapter extends RecyclerView.Adapter<TeacherSheduleAd
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shedule, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_schedule, parent, false);
         final OrderViewHolder holder = new OrderViewHolder(itemView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    listener.onOrderClick(moves.get(pos), pos);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                listener.onOrderClick(moves.get(pos), pos);
             }
         });
 
@@ -55,14 +51,14 @@ public class TeacherSheduleAdapter extends RecyclerView.Adapter<TeacherSheduleAd
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-        Shedule shedule = moves.get(position);
-        holder.tv_day_name.setText(shedule.getDay_name());
+        Schedule schedule = moves.get(position);
+        holder.tv_day_name.setText(schedule.getDay_name());
 
 
-        if (shedule.getList_subjects() != null) {
-            holder.rvSubjectSheduleAdapter = new TeacherSubjectSheduleAdapter(context, shedule.getList_subjects(), id);
+        if (schedule.getList_subjects() != null) {
+            holder.rvSubjectScheduleAdapter = new MarkSubjectScheduleAdapter(context, schedule.getList_subjects(), id);
             holder.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            holder.recyclerView.setAdapter(holder.rvSubjectSheduleAdapter);
+            holder.recyclerView.setAdapter(holder.rvSubjectScheduleAdapter);
         }
 
     }
@@ -72,7 +68,7 @@ public class TeacherSheduleAdapter extends RecyclerView.Adapter<TeacherSheduleAd
         return moves == null ? 0 : moves.size();
     }
 
-    public void updateItems(List<Shedule> list) {
+    public void updateItems(List<Schedule> list) {
         moves = list;
         notifyDataSetChanged();
     }
@@ -82,18 +78,17 @@ public class TeacherSheduleAdapter extends RecyclerView.Adapter<TeacherSheduleAd
         TextView tv_day_name;
         RecyclerView recyclerView;
         Context context;
-        TeacherSubjectSheduleAdapter rvSubjectSheduleAdapter;
+        MarkSubjectScheduleAdapter rvSubjectScheduleAdapter;
 
         public OrderViewHolder(View view) {
             super(view);
             context = view.getContext();
             tv_day_name = view.findViewById(R.id.tv_day_name);
             recyclerView = view.findViewById(R.id.recyclerView);
-
         }
     }
 
     public interface OnOrderListener {
-        void onOrderClick(Shedule shedule, int position);
+        void onOrderClick(Schedule schedule, int position);
     }
 }

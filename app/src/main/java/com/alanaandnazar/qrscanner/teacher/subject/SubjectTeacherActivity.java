@@ -17,7 +17,7 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Subject;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.teacher.CreateHomeWorkActivity;
 
 import java.util.List;
@@ -56,12 +56,7 @@ public class SubjectTeacherActivity extends AppCompatActivity implements Subject
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Выберите предмет");
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
@@ -80,7 +75,7 @@ public class SubjectTeacherActivity extends AppCompatActivity implements Subject
 
     public void getSubject() {
 
-        BalAPI balAPI = App.getApi();
+        BalApi balAPI = App.getApi();
         balAPI.getSubjectsMark(token).enqueue(new Callback<List<Subject>>() {
             @Override
             public void onResponse(@NonNull Call<List<Subject>> call, @NonNull Response<List<Subject>> response) {

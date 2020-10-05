@@ -45,7 +45,7 @@ import com.alanaandnazar.qrscanner.R;
 import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Person;
 import com.alanaandnazar.qrscanner.retrofit.App;
-import com.alanaandnazar.qrscanner.retrofit.BalAPI;
+import com.alanaandnazar.qrscanner.retrofit.BalApi;
 import com.alanaandnazar.qrscanner.retrofit.TokenResponse;
 import com.bumptech.glide.Glide;
 
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView guestPhoto;
     CheckBox checkBox;
     private static final int CAMERA_REQUEST = 1888;
-    BalAPI balAPI;
+    BalApi balAPI;
     SaveUserToken saveUserToken = new SaveUserToken();
     File file3;
     Uri uri;
@@ -673,7 +673,7 @@ public class MainActivity extends AppCompatActivity {
                     if (progressExit.isShowing()) {
                         progressExit.dismiss();
                     }
-                    saveUserToken.ClearToken(MainActivity.this);
+                    saveUserToken.clearToken(MainActivity.this);
 
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
@@ -682,7 +682,7 @@ public class MainActivity extends AppCompatActivity {
                     if (progressExit.isShowing()) {
                         progressExit.dismiss();
                     }
-                    saveUserToken.ClearToken(MainActivity.this);
+                    saveUserToken.clearToken(MainActivity.this);
                     Toast.makeText(MainActivity.this, response.body().getMess(), Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);
@@ -777,7 +777,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("TAG", "message " + response.message());
                 Log.e("TAG", "message " + response.body());
                 if (response.code() == 401) {
-                    saveUserToken.ClearToken(MainActivity.this);
+                    saveUserToken.clearToken(MainActivity.this);
                     Toast.makeText(MainActivity.this, "Сессия устарела, Пожалуйста перезайдите", Toast.LENGTH_SHORT).show();
 
                     Intent i = new Intent(MainActivity.this, LoginActivity.class);

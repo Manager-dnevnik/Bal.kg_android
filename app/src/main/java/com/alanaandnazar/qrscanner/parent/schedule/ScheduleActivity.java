@@ -1,49 +1,54 @@
-package com.alanaandnazar.qrscanner.parent.child_move.view;
+package com.alanaandnazar.qrscanner.parent.schedule;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
+
 import com.alanaandnazar.qrscanner.BaseApplication;
 import com.alanaandnazar.qrscanner.R;
-import com.alanaandnazar.qrscanner.dagger.child_move.ChildMoveModule;
-import com.alanaandnazar.qrscanner.model.ChildMove;
-import com.alanaandnazar.qrscanner.parent.child_move.presenter.ChildMoveAdapter;
-import com.alanaandnazar.qrscanner.parent.child_move.presenter.IChildMovePresenter;
+import com.alanaandnazar.qrscanner.dagger.shedule.SheduleModule;
+import com.alanaandnazar.qrscanner.model.Schedule;
+import com.alanaandnazar.qrscanner.parent.DividerItemDecorationTwo;
+import com.alanaandnazar.qrscanner.parent.schedule.presenter.IShedulePresenter;
+import com.alanaandnazar.qrscanner.parent.schedule.presenter.SheduleAdapter;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class ChildMoveActivity extends AppCompatActivity implements IChildMoveView, ChildMoveAdapter.OnOrderListener {
+public class ScheduleActivity extends AppCompatActivity implements ISheduleView, SheduleAdapter.OnOrderListener {
 
-    ProgressDialog progressBar;
     RecyclerView recyclerView;
-    ChildMoveAdapter adapter;
+    SheduleAdapter adapter;
+    ProgressDialog progressBar;
+
 
     @Inject
-    IChildMovePresenter presenter;
+    IShedulePresenter presenter;
+
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_child_move);
+        setContentView(R.layout.activity_shedule);
         initComponents();
-        init();
         initToolbar();
+        init();
     }
 
     private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Посещения");
+        toolbar.setTitle("Расписание");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,24 +61,29 @@ public class ChildMoveActivity extends AppCompatActivity implements IChildMoveVi
 
     private void initComponents() {
         BaseApplication application = (BaseApplication) getApplicationContext();
-        application.getAppComponent().plus(new ChildMoveModule()).inject(this);
+        application.getAppComponent().plus(new SheduleModule()).inject(this);
     }
 
     private void init() {
+        int id = getIntent().getIntExtra("id", 0);
         recyclerView = findViewById(R.id.recyclerView);
-        adapter = new ChildMoveAdapter(ChildMoveActivity.this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SheduleAdapter(ScheduleActivity.this, ScheduleActivity.this, id);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setLayoutManager(mGridLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.HORIZONTAL));
+        recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
-        int id = getIntent().getIntExtra("id", 0);
 
         presenter.bindView(this);
-        presenter.getChildMoves(id);
+        presenter.getShedules(id);
     }
 
+
     @Override
-    public void onSuccess(List<ChildMove> childMove) {
-        adapter.updateItems(childMove);
+    public void onSuccess(List<Schedule> shedules) {
+        adapter.updateItems(shedules);
     }
 
     @Override
@@ -95,11 +105,7 @@ public class ChildMoveActivity extends AppCompatActivity implements IChildMoveVi
     }
 
     @Override
-    public void onOrderClick(ChildMove childMove, int position) {
-
-    }
-
-    public void onClick(View view) {
+    public void onOrderClick(Schedule shedule, int position) {
 
     }
 }
