@@ -1,13 +1,14 @@
 package com.alanaandnazar.qrscanner.parent.announcement;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,8 +25,13 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class AnnouncementActivity extends AppCompatActivity implements AnnouncementAdapter.OnOrderListener {
+
+    public static Intent getStarIntent(Context context) {
+        return new Intent(context, AnnouncementActivity.class);
+    }
 
     RecyclerView recyclerView;
     SaveUserToken saveToken = new SaveUserToken();
@@ -66,7 +72,7 @@ public class AnnouncementActivity extends AppCompatActivity implements Announcem
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(AnnouncementActivity.this);
-        Log.e("TOKEN", token);
+        Timber.e(token);
         getSubject();
     }
 
@@ -78,7 +84,7 @@ public class AnnouncementActivity extends AppCompatActivity implements Announcem
             public void onResponse(@NonNull Call<List<Announcement>> call, @NonNull Response<List<Announcement>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("Classes SIZE", response.body().size() + "");
+                        Timber.e("%s", response.body().size());
                         adapter.updateItems(response.body());
                     }
                 } else {
@@ -87,7 +93,7 @@ public class AnnouncementActivity extends AppCompatActivity implements Announcem
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Announcement>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Announcement>> call, @NonNull Throwable t) {
                 Toast.makeText(AnnouncementActivity.this, "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });

@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class MarkFragment extends Fragment {
 
@@ -49,15 +49,17 @@ public class MarkFragment extends Fragment {
     }
 
     private void init() {
-        id = getArguments().getInt("id", 0);
+        if (getArguments() != null) {
+            id = getArguments().getInt("id", 0);
+        }
         subject_id = getArguments().getInt("subject_id", 0);
 
-        Log.e("MARK_ID", id+" "+subject_id);
+        Timber.tag("MARK_ID").e(id + " " + subject_id);
         adapter = new MarkAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(getActivity());
-        Log.e("TOKEN", token);
+        Timber.e(token);
         getChildrens();
     }
 
@@ -69,7 +71,7 @@ public class MarkFragment extends Fragment {
             public void onResponse(@NonNull Call<List<Mark>> call, @NonNull Response<List<Mark>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("CHILD SIZE", response.body().size()+"");
+                        Timber.e("%s", response.body().size());
                         adapter.setItems(response.body());
                     }
                 } else {
@@ -78,7 +80,7 @@ public class MarkFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<Mark>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Mark>> call, @NonNull Throwable t) {
                 Toast.makeText(getActivity(), "Сервер не отвечает или неправильный Адрес сервера! ", Toast.LENGTH_SHORT).show();
             }
         });

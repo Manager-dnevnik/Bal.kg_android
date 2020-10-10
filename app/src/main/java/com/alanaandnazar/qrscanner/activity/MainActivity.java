@@ -242,9 +242,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case MotionEvent.ACTION_CANCEL:
-                        exit.setTextColor(Color.parseColor("#7a1a8b"));
-                        exit.setBackgroundResource(R.drawable.mybutton);
-                        break;
                     case MotionEvent.ACTION_UP:
                         exit.setTextColor(Color.parseColor("#7a1a8b"));
                         exit.setBackgroundResource(R.drawable.mybutton);

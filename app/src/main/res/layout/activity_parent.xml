@@ -20,38 +20,12 @@
             android:background="@color/white"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:theme="@style/ToolbarColoredBackArrow"
-            app:titleTextColor="#000000">
-
-            <ImageView
-                android:id="@+id/notify"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:minHeight="0dp"
-                android:src="@mipmap/ic_notify"
-                android:textAllCaps="false"
-                android:layout_marginRight="16dp" />
-
-        </android.support.v7.widget.Toolbar>
-
-
+            app:titleTextColor="#000000" />
     </android.support.design.widget.AppBarLayout>
-
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/mybuttonclicked"
-        android:onClick="onClick"
-        android:text="Выход"
-        android:textColor="@color/white" />
-
 </LinearLayout>

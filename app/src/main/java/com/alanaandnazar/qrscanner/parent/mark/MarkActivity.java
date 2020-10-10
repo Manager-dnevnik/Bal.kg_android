@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +25,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class MarkActivity extends AppCompatActivity implements MarkScheduleAdapter.OnOrderListener {
 
@@ -63,7 +63,6 @@ public class MarkActivity extends AppCompatActivity implements MarkScheduleAdapt
     }
 
 
-
     private void init() {
         id = getIntent().getIntExtra("id", 0);
         recyclerView = findViewById(R.id.recyclerView);
@@ -75,7 +74,7 @@ public class MarkActivity extends AppCompatActivity implements MarkScheduleAdapt
         recyclerView.addItemDecoration(new DividerItemDecorationTwo(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(MarkActivity.this);
-        Log.e("TOKEN", token);
+        Timber.e(token);
         getSubject();
     }
 
@@ -87,7 +86,7 @@ public class MarkActivity extends AppCompatActivity implements MarkScheduleAdapt
             public void onResponse(@NonNull Call<List<Schedule>> call, @NonNull Response<List<Schedule>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("Classes SIZE", response.body().size()+"");
+                        Timber.tag("Classes SIZE").e("%s", response.body().size());
                         adapter.updateItems(response.body());
                     }
                 } else {
@@ -106,10 +105,4 @@ public class MarkActivity extends AppCompatActivity implements MarkScheduleAdapt
     public void onOrderClick(Schedule schedule, int position) {
 
     }
-
-//    public void onClick(View view) {
-//        Intent i = new Intent(SubjectTeacherActivity.this, CreateHomeWorkActivity.class);
-//        i.putExtra("id", id);
-//        startActivity(i);
-//    }
 }

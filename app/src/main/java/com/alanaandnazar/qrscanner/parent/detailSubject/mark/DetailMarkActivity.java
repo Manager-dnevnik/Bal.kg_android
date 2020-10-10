@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -16,7 +15,6 @@ import com.alanaandnazar.qrscanner.Token.SaveUserToken;
 import com.alanaandnazar.qrscanner.model.Mark;
 import com.alanaandnazar.qrscanner.retrofit.App;
 import com.alanaandnazar.qrscanner.retrofit.BalApi;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +23,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -69,7 +68,7 @@ public class DetailMarkActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(this);
-        Log.e("TOKEN", token);
+        Timber.e(token);
         getChildren();
     }
 
@@ -80,13 +79,13 @@ public class DetailMarkActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<List<Mark>> call, @NonNull Response<List<Mark>> response) {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("AMOUNT OF MARKS: ", response.body().size() + "");
+                        Timber.e("%s", response.body().size());
                         for (Mark mark : response.body()
                         ) {
                             if (mark.getDate().equals(date)) {
                                 mMark = mark;
                             }
-                            Log.e("TAG", "MARK_DATE: " + mark.getDate() + " SUBJECT_DATE:" + date);
+                            Timber.e("MARK_DATE: " + mark.getDate() + " SUBJECT_DATE:" + date);
 
                         }
                         mMarkList = response.body();
