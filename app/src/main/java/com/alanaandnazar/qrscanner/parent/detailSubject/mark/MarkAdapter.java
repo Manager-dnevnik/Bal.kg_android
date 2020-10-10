@@ -19,6 +19,8 @@ import com.alanaandnazar.qrscanner.model.Mark;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 
 public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolder> {
     private List<Mark> marks;
@@ -40,9 +42,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
         final OrderViewHolder holder = new OrderViewHolder(itemView);
         holder.itemView.setOnClickListener(v -> {
             int pos = holder.getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
-//                    listener.onOrderClick(orders.get(pos), pos);
-            }
+            //                    listener.onOrderClick(orders.get(pos), pos);
         });
 
         return holder;
@@ -83,7 +83,7 @@ public class MarkAdapter extends RecyclerView.Adapter<MarkAdapter.OrderViewHolde
 
         public void onBind(Mark mark) {
             ViewGroup.LayoutParams params = card_view.getLayoutParams();
-            Log.e("MARK", mark.getComm() + " " + mark.getDate());
+            Timber.e(mark.getComm() + " " + mark.getDate());
             if (mark.getType_mark().equals("part")) {
                 linePart.setVisibility(View.VISIBLE);
             } else {

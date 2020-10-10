@@ -2,4 +2,6 @@
     <string name="app_name">Bal.kg</string>
     <string name="show_all_marks">Показать все оценки</string>
     <string name="show_mark_only_for_today">Показать только сегодняшний</string>
+    <string name="exit">Выход</string>
+    <string name="notification">Уведомление</string>
 </resources>

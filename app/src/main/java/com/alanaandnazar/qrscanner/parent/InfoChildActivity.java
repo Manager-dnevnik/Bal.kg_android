@@ -1,5 +1,6 @@
 package com.alanaandnazar.qrscanner.parent;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import java.util.Objects;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class InfoChildActivity extends AppCompatActivity {
 
@@ -113,9 +115,10 @@ public class InfoChildActivity extends AppCompatActivity {
 
         BalApi balAPI = App.getApi();
         balAPI.getChildInfo(token, id).enqueue(new Callback<Student>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<Student> call, @NonNull Response<Student> response) {
-                Log.e("CHILD INFO", response.body() + "");
+                Timber.e("%s", response.body());
 
                 if (response.body() != null) {
                     if (response.isSuccessful()) {

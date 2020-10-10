@@ -1,17 +1,15 @@
 package com.alanaandnazar.qrscanner.parent;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.alanaandnazar.qrscanner.R;
@@ -27,6 +25,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 public class ParentActivity extends AppCompatActivity implements StudentsAdapter.onStudentClickListener {
 
@@ -35,23 +34,18 @@ public class ParentActivity extends AppCompatActivity implements StudentsAdapter
     String token;
     StudentsAdapter adapter;
     Toolbar toolbar;
-    ImageView notify;
 
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent);
 
         recyclerView = findViewById(R.id.recyclerView);
-        notify = findViewById(R.id.notify);
         toolbar = findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("Родитель");
         init();
-
-        notify.setOnClickListener(v -> startActivity(new Intent(ParentActivity.this, AnnouncementActivity.class)));
     }
 
     private void init() {
@@ -59,7 +53,7 @@ public class ParentActivity extends AppCompatActivity implements StudentsAdapter
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         token = saveToken.getToken(ParentActivity.this);
-        Log.e("TOKEN", token);
+        Timber.tag("TOKEN").e(token);
         getChildren();
     }
 
@@ -79,7 +73,7 @@ public class ParentActivity extends AppCompatActivity implements StudentsAdapter
                 }
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
-                        Log.e("CHILD SIZE", response.body().size() + "");
+                        Timber.e("%s", response.body().size());
                         adapter.updateItems(response.body());
                     }
                 } else {
@@ -102,10 +96,6 @@ public class ParentActivity extends AppCompatActivity implements StudentsAdapter
         startActivity(intent);
     }
 
-    public void onClick(View view) {
-        showSignOutDialog();
-    }
-
     private void showSignOutDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Выйти");
@@ -120,4 +110,23 @@ public class ParentActivity extends AppCompatActivity implements StudentsAdapter
         builder.show();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_parent_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_log_out:
+                showSignOutDialog();
+                return true;
+            case R.id.action_notification:
+                startActivity(AnnouncementActivity.getStarIntent(this));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
